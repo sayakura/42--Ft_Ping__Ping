@@ -32,9 +32,15 @@
 // } 
 
 #include <netinet/in.h>
+
+void intHandler(int __) 
+{ 
+    g_conf.run = false; 
+} 
+
 char    *reverse_dns_lookup(char *ip_addr) 
 { 
-    struct sockaddr_i   _temp;     
+    struct sockaddr_in  _temp;     
     socklen_t           len; 
     char                buf[NI_MAXHOST];
     char                *ret_buf; 
@@ -77,26 +83,73 @@ char    *lookup_host (const char *host)
         else if (res->ai_family == AF_INET6)
             ptr = &((struct sockaddr_in6 *) res->ai_addr)->sin6_addr;
         inet_ntop (res->ai_family, ptr, addrstr, 100);
-        printf ("IPv%d address: %s (%s)\n", res->ai_family == PF_INET6 ? 6 : 4,
-              addrstr, res->ai_canonname);
         return (addrstr);
     }
     else
         return (NULL);
 }
 
+void    ping(int sockfd, struct sockaddr_in *ser_add, char *r_host, char *ip, char *host)
+{
+    t_ping_pkt pckt;
+
+    g_conf.run = 1;
+    printf("PING %s (%s) %d bytes of data.\n", host, ip, g_conf.pkg_siz);
+    while (g_conf.run)
+    {
+        bzero(&pckt, sizeof(pckt));
+        pckt.hdr.type = ICMP_ECHO; 
+        pckt.hdr.un.echo.id = getpid(); 
+        
+    }
+}
+
+int     sock_init(int sock_id, struct sockaddr_in *ser_addr, char *ip)
+{
+    ser_addr->sin_family = AF_INET;
+    ser_addr->sin_port = 0;
+    ser_addr->sin_addr.s_addr = inet_addr(ip);
+    if (setsockopt(sock_id, SOL_IP, IP_TTL,  
+               &g_conf.ttl_val, sizeof(g_conf.ttl_val)) != 0)
+    {
+        perror("setsockopt");
+        exit(EXIT_FAILURE);
+    }
+    // setsockopt(sock_id, SOL_SOCKET, SO_RCVTIMEO, 
+    //                (const char*)&tv_out, sizeof tv_out); 
+}
+
+void   ping_init(char *host)
+{
+    static struct sockaddr_in   *ser_addr;
+    char                        *ip;
+    char                        *r_host;
+    int                         sockfd;
+
+    g_conf.pkg_siz = PING_PKG_SIZ;
+    g_conf.time_out = PING_TIMEOUT;
+    g_conf.ttl_val = PING_TTL;
+    ip = lookup_host(host);
+    if (ip == NULL)
+       printf("ping: %s: Name or service not known\n", host);
+    r_host = reverse_dns_lookup(ip);
+    if (sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP) < 0)
+    {
+        perror("socket");
+        exit(EXIT_FAILURE);
+    }
+    signal(SIGINT, intHandler);
+    sock_init(sockfd, ser_addr, ip);
+    ping(sockfd, &ser_addr, r_host, ip, host); 
+}
+
 int     main(int ac, char **av)
 {
-    char    *ip;
-
     if (ac != 2)
     {
         printf("usage: ping [-v] host [-h]\n");
         exit(EXIT_SUCCESS);
     }
-    ip = lookup_host(av[1]);
-    if (ip == NULL)
-       printf("ping: %s: Name or service not known\n", av[1]);
-    printf("%s\n", ip);
+    ping_init(av[1]);
     return (0);
 }

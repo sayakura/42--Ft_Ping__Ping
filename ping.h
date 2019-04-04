@@ -13,12 +13,10 @@
 # ifndef PING_H
 # define PING_H
 
-#include <netinet/in.h>
 #include <stdio.h> 
 #include <sys/types.h> 
 #include <sys/socket.h> 
 #include <arpa/inet.h> 
-#include <netdb.h> 
 #include <unistd.h> 
 #include <string.h> 
 #include <stdlib.h> 
@@ -34,8 +32,26 @@
 #include <net/if.h>
 #include <stdarg.h>
 #include <resolv.h>
-
+#include <netdb.h> 
+#include <netinet/in.h>
 
 bool g_running = true;
+# define PING_TTL 51
+# define PING_PKG_SIZ 56
+# define PING_TIMEOUT 4
+struct s_ping_conf
+{
+    int ttl_val;
+    int pkg_siz;
+    int time_out;
+    bool run;
+};
 
+typedef struct s_ping_pkt 
+{ 
+    struct icmphdr  hdr; 
+    char            msg[PING_PKG_SIZ - sizeof(struct icmphdr)]; 
+}               t_ping_pkt;
+ 
+struct s_ping_conf g_conf;
 #endif
