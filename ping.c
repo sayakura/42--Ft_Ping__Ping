@@ -30,50 +30,73 @@
 //     (*addr_con).sin_addr.s_addr  = *(long*)host_entity->h_addr; 
 //     return ip; 
 // } 
-int     dns_lookup(char *addr_host, void **ptr)
-{
-    struct addrinfo *res;
-    struct addrinfo hints;
-  char addrstr[100];
 
-    memset (&hints, 0, sizeof(hints));
-    hints.ai_family = PF_UNSPEC;
-    hints.ai_socktype = SOCK_RAW;
-    if (getaddrinfo(addr_host, NULL, &hints, &res) < 0)
-    {
-        perror("getaddrinfo");
-        return (-1);
+#include <netinet/in.h>
+char    *reverse_dns_lookup(char *ip_addr) 
+{ 
+    struct sockaddr_i   _temp;     
+    socklen_t           len; 
+    char                buf[NI_MAXHOST];
+    char                *ret_buf; 
+  
+    _temp.sin_family = AF_INET; 
+    _temp.sin_addr.s_addr = inet_addr(ip_addr); 
+    len = sizeof(struct sockaddr_in); 
+    if (getnameinfo((struct sockaddr *) &_temp, len, buf,  
+                    sizeof(buf), NULL, 0, NI_NAMEREQD))  
+    { 
+        perror("getnameinfo");
+        return NULL; 
     }
-    while (res)
+    ret_buf = (char*)malloc((strlen(buf) +1)*sizeof(char) ); 
+    strcpy(ret_buf, buf); 
+    return ret_buf; 
+} 
+
+char    *lookup_host (const char *host)
+{
+    struct addrinfo   hints;
+    struct addrinfo   *res;
+    static char       addrstr[100];
+    void              *ptr;
+
+    memset (&hints, 0, sizeof (hints));
+    hints.ai_family = PF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags |= AI_CANONNAME;
+    if (getaddrinfo(host, NULL, &hints, &res) < 0)
+    {
+        perror ("getaddrinfo");
+        return (NULL);
+    }
+    if (res)
     {
         inet_ntop (res->ai_family, res->ai_addr->sa_data, addrstr, 100);
-        if (res->ai_family == AF_INET || res->ai_family == AF_INET6)
-            memcpy(*ptr, (struct sockaddr *)res->ai_addr,\
-            sizeof(struct sockaddr));
+        if (res->ai_family == AF_INET)
+            ptr = &((struct sockaddr_in *) res->ai_addr)->sin_addr;
+        else if (res->ai_family == AF_INET6)
+            ptr = &((struct sockaddr_in6 *) res->ai_addr)->sin6_addr;
         inet_ntop (res->ai_family, ptr, addrstr, 100);
         printf ("IPv%d address: %s (%s)\n", res->ai_family == PF_INET6 ? 6 : 4,
               addrstr, res->ai_canonname);
-        if (*ptr)
-            return (res->ai_family == AF_INET ? 4 : 6);
-        res = res->ai_next;
+        return (addrstr);
     }
-    return (0); 
+    else
+        return (NULL);
 }
 
 int     main(int ac, char **av)
 {
-    void    *ptr;
-    int     int_type;
+    char    *ip;
 
     if (ac != 2)
     {
         printf("usage: ping [-v] host [-h]\n");
         exit(EXIT_SUCCESS);
     }
-    ptr = malloc(sizeof(struct sockaddr));
-    int_type = dns_lookup(av[1], &ptr);
-    if (status == 0)
+    ip = lookup_host(av[1]);
+    if (ip == NULL)
        printf("ping: %s: Name or service not known\n", av[1]);
-    printf("%d\n", status);
+    printf("%s\n", ip);
     return (0);
 }
