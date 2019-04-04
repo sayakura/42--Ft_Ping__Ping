@@ -30,29 +30,50 @@
 //     (*addr_con).sin_addr.s_addr  = *(long*)host_entity->h_addr; 
 //     return ip; 
 // } 
-
-int     dns_lookup(char *addr_host, struct sockaddr_in *addr_con)
+int     dns_lookup(char *addr_host, void **ptr)
 {
-    int status;
+    struct addrinfo *res;
+    struct addrinfo hints;
+  char addrstr[100];
 
-    if ((status = getaddrinfo(addr_host, NULL, NULL, &addr_con)) < 0)
+    memset (&hints, 0, sizeof(hints));
+    hints.ai_family = PF_UNSPEC;
+    hints.ai_socktype = SOCK_RAW;
+    if (getaddrinfo(addr_host, NULL, &hints, &res) < 0)
     {
-        printf("Error!\n");
-        return status; 
+        perror("getaddrinfo");
+        return (-1);
     }
-    return status; 
+    while (res)
+    {
+        inet_ntop (res->ai_family, res->ai_addr->sa_data, addrstr, 100);
+        if (res->ai_family == AF_INET || res->ai_family == AF_INET6)
+            memcpy(*ptr, (struct sockaddr *)res->ai_addr,\
+            sizeof(struct sockaddr));
+        inet_ntop (res->ai_family, ptr, addrstr, 100);
+        printf ("IPv%d address: %s (%s)\n", res->ai_family == PF_INET6 ? 6 : 4,
+              addrstr, res->ai_canonname);
+        if (*ptr)
+            return (res->ai_family == AF_INET ? 4 : 6);
+        res = res->ai_next;
+    }
+    return (0); 
 }
 
 int     main(int ac, char **av)
 {
-    struct sockaddr_in6 addr_con; 
+    void    *ptr;
+    int     int_type;
 
     if (ac != 2)
     {
         printf("usage: ping [-v] host [-h]\n");
         exit(EXIT_SUCCESS);
     }
-    int status = dns_lookup(av[0], &addr_con);
+    ptr = malloc(sizeof(struct sockaddr));
+    int_type = dns_lookup(av[1], &ptr);
+    if (status == 0)
+       printf("ping: %s: Name or service not known\n", av[1]);
     printf("%d\n", status);
     return (0);
 }
