@@ -30,13 +30,10 @@
   
 // Define the Ping Loop 
 int pingloop=1; 
-  
-  
-// ping packet structure 
 struct ping_pkt 
 { 
     struct icmphdr hdr; 
-    char msg[PING_PKT_S-sizeof(struct icmphdr)]; 
+    char msg[PING_PKT_S - sizeof(struct icmphdr)]; 
 }; 
   
 // Calculating the Check Sum 
@@ -245,13 +242,13 @@ int main(int argc, char *argv[])
     struct sockaddr_in addr_con; 
     int addrlen = sizeof(addr_con); 
     char net_buf[NI_MAXHOST]; 
-  
+
     if(argc!=2) 
     { 
         printf("\nFormat %s <address>\n", argv[0]); 
         return 0; 
     } 
-  
+
     ip_addr = dns_lookup(argv[1], &addr_con); 
     if(ip_addr==NULL) 
     { 
