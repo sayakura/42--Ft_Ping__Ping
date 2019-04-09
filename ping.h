@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ping.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/03 20:54:30 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/08 06:56:28 by kura             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,37 @@
 #include <netdb.h> 
 #include <netinet/in.h>
 
-bool g_running = true;
+# define XOR(a) a ^= a
 # define PING_TTL 51
 # define PING_PKG_SIZ 56
 # define PING_TIMEOUT 4
-struct s_ping_conf
+# define BUFF_SIZE 1024
+
+struct s_pin_g
 {
-    int ttl_val;
-    int pkg_siz;
-    int time_out;
-    bool run;
+    struct sockaddr     *ssend;
+    struct sockaddr     *srecv;
+    struct iovec        iov;
+    struct icmp         icmp;
+    struct msghdr       msg;
+    int                 ssendlen;                 
+    unsigned int        seq;
+    int                 datalen;
+    int                 ttl_val;
+    int                 pkg_siz;
+    int                 time_out;
+    int                 sockfd;
+    char                *r_host;
+    char                *ip;
+    pid_t               pid;
+    int                 verbost;
+
+    char                sendbuf[BUFF_SIZE];
+    char                recvbuf[BUFF_SIZE];
+
+
+    char                ctrl_buf[BUFF_SIZE];;
+    unsigned int        msg_cnt;
 };
 
 typedef struct s_ping_pkt 
@@ -52,6 +73,12 @@ typedef struct s_ping_pkt
     struct icmphdr  hdr; 
     char            msg[PING_PKG_SIZ - sizeof(struct icmphdr)]; 
 }               t_ping_pkt;
- 
-struct s_ping_conf g_conf;
+
+struct s_pin_g _g;
+
+char                   *lookup_host (const char *host);
+char                *reverse_dns_lookup(char *ip_addr);
+u_int8_t            get_checksum(uint16_t *b, int len);
+double              caltime(struct timeval end, struct timeval start);
+struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int family, int socktype);
 #endif
