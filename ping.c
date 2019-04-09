@@ -140,7 +140,6 @@ int     sock_init(void)
 
 int    ft_recvmsg(void)
 {
-    int             ret;
     // struct sockaddr sin;
 
     // memset(&_g.msg, 0, sizeof(_g.msg));
@@ -154,25 +153,27 @@ int    ft_recvmsg(void)
     // _g.msg.msg_control = _g.ctrl_buf;
     // _g.msg.msg_controllen = sizeof(_g.ctrl_buf);
     //printf("trying to recv some shits\n");
-    struct msghdr   mhdr;
-    struct iovec    iov[1];
+    ssize_t         ret;
+    char            cbuf[512];
+    struct msghdr   msg;
+    struct iovec    iov;
     struct cmsghdr  *cmhdr;
-    struct sockaddr_in  sin;
-    char            databuf[1500];
-    char            control[1000];
+    struct icmphdr icmph;
+    struct sockaddr_in  target;
     unsigned char   tos;
     
-    mhdr.msg_name = _g.ssend;
-    mhdr.msg_namelen = sizeof(struct sockaddr);
-    mhdr.msg_iov = iov;
-    mhdr.msg_iovlen = 1;
-    mhdr.msg_control = &control;
-    mhdr.msg_controllen = sizeof(control);
-    iov[0].iov_base = databuf;
-    iov[0].iov_len = sizeof(databuf);
-    memset(databuf, 0, sizeof(databuf));
+    iov.iov_base = &icmph;
+    iov.iov_len = sizeof(icmph);
+    msg.msg_name = (void *)target;
+    msg.msg_namelen = sizeof(target);
+    msg.msg_iov = &iov;
+    msg.msg_iovlen = 1;
+    msg.msg_flags = 0;
+    msg.msg_control = cbuf;
+    msg.msg_controllen = sizeof(cbuf);
+    
     printf("fd: %d\n", _g.sockfd);
-    ret = recvmsg(_g.sockfd, &mhdr, 0);
+    ret = recvmsg(_g.sockfd, &msg, MSG_ERRQUEUE | MSG_DONTWAIT);
     if (ret < 0)
         perror("recvmsg");
     printf("received: %d\n", ret);
