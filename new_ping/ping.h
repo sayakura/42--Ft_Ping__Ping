@@ -70,8 +70,8 @@ struct s_pin_g
     char                sendbuf[BUFF_SIZE];
     char                recvbuf[BUFF_SIZE];
 
+    char                ctrl_buf[BUFF_SIZE];
 
-    char                ctrl_buf[BUFF_SIZE];;
     unsigned int        msg_cnt;
 };
 
@@ -88,4 +88,5 @@ char                *reverse_dns_lookup(char *ip_addr);
 u_int8_t            get_checksum(uint16_t *b, int len);
 double              caltime(struct timeval end, struct timeval start);
 struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int family, int socktype);
+void                sig_alrm(int signo);
 #endif

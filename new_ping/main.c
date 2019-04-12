@@ -18,7 +18,6 @@ struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int fam
 	return(res);	                /* return pointer to first on linked list */
 }
 
-
 void   ping_init(char *host)
 {
     struct addrinfo     *ret;
@@ -45,6 +44,7 @@ int     main(int ac, char **av)
         exit(EXIT_SUCCESS);
     }
     _g.msg_cnt = 0;
+    signal(SIGALRM, sig_alrm);
     //signal(SIGALRM, sig_alarm);
     ping_init(av[1]);
     return (0);
