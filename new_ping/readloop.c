@@ -51,6 +51,7 @@ void    send_v4(void)
     len = 8 + DATALEN;
     icmp->icmp_cksum = 0;
     icmp->icmp_cksum = in_cksum((u_short *) icmp, len);
+    sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
 }
 
 void    sig_alrm(int signo)
