@@ -54,7 +54,7 @@ struct s_pin_g
     struct iovec        iov;
     struct icmp         icmp;
     struct msghdr       msg;
-    
+
     int                 ssendlen;                 
     unsigned int        seq;
     int                 datalen;
@@ -63,7 +63,7 @@ struct s_pin_g
     int                 time_out;
     int                 sockfd;
     char                *r_host;
-    char                *ip;
+    char                ip[100];
     pid_t               pid;
     int                 verbost;
 

@@ -23,19 +23,18 @@ void   ping_init(char *host)
 {
     struct addrinfo     *ret;
     void                *ptr;
-    char                addrstr[100];
+    static char         addrstr[100];
 
     ret = host_to_addrinfo(host, NULL, AF_INET, SOCK_STREAM);
     _g.ssend = ret->ai_addr;
     _g.ssendlen = ret->ai_addrlen;
-
     if (ret->ai_family == AF_INET)
         ptr = &((struct sockaddr_in *) ret->ai_addr)->sin_addr;
     else if (ret->ai_family == AF_INET6)
         ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
-    inet_ntop (ret->ai_family, ptr, addrstr, 100);
-    printf("ip found: %s\n", addrstr);
-    readloop();
+    inet_ntop(ret->ai_family, ptr, _g.ip, 100);
+    printf("ip found: %s\n", _g.ip);
+    //readloop();
 }
 
 int     main(int ac, char **av)
