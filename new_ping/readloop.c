@@ -32,7 +32,7 @@ void    send_v4(void)
     icmp->icmp_code = 0;
     icmp->icmp_id = _g.pid;
     icmp->icmp_seq = _g.msg_cnt++;
-    memset(icmp->icmp_data, 0xa5, DATALEN);
+    memset(icmp->icmp_data, 0xff, DATALEN);
     gettimeofday((struct timeval *)icmp->icmp_data, NULL);
     len = 8 + DATALEN;
     icmp->icmp_cksum = 0;
