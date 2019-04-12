@@ -89,4 +89,5 @@ u_int8_t            get_checksum(uint16_t *b, int len);
 double              caltime(struct timeval end, struct timeval start);
 struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int family, int socktype);
 void                sig_alrm(int signo);
+void                readloop(void);
 #endif

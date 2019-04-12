@@ -33,7 +33,7 @@ void   ping_init(char *host)
         ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
     printf("ip found: %s\n", _g.ip);
-    //readloop();
+    readloop();
 }
 
 int     main(int ac, char **av)
