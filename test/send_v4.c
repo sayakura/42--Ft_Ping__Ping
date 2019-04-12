@@ -13,7 +13,7 @@ send_v4(void)
 	icmp->icmp_seq = nsent++;
 	Gettimeofday((struct timeval *) icmp->icmp_data, NULL);
 
-	len = 8 + datalen;		/* checksum ICMP header and data */
+	len = 8 + datalen;
 	icmp->icmp_cksum = 0;
 	icmp->icmp_cksum = in_cksum((u_short *) icmp, len);
 

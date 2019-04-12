@@ -1,7 +1,21 @@
 #include "ping.h"
-uint16_t
 
-in_cksum (uint16_t * addr, int len)
+void        error(char *str)
+{
+    fprintf(stderr, str);
+    exit(EXIT_FAILURE);
+}
+
+void   tv_sub (struct timeval *out, struct timeval *in)
+{
+        if ((out->tv_usec -= in->tv_usec) < 0) {     /* out -= in */
+             --out->tv_sec;
+        out->tv_usec += 1000000;
+        }
+        out->tv_sec -= in->tv_sec;
+}
+
+uint16_t    in_cksum (uint16_t * addr, int len)
  {
     int     nleft = len;
     uint32_t sum = 0;
@@ -16,9 +30,9 @@ in_cksum (uint16_t * addr, int len)
         * (unsigned char *) (&answer) = * (unsigned char *) w;
         sum += answer;
      }
-    sum = (sum >> 16) + (sum & 0xffff); /* add hi 16 to low 16 */
-    sum += (sum >> 16);     /* add carry */
-    answer = ~sum;     /* truncate to 16 bits */
+    sum = (sum >> 16) + (sum & 0xffff); 
+    sum += (sum >> 16); 
+    answer = ~sum; 
     return (answer);
 }
 
@@ -32,21 +46,47 @@ void    send_v4(void)
     icmp->icmp_code = 0;
     icmp->icmp_id = _g.pid;
     icmp->icmp_seq = _g.msg_cnt++;
-    memset(icmp->icmp_data, 0xa5, DATALEN);
+    memset(icmp->icmp_data, 0xff, DATALEN);
     gettimeofday((struct timeval *)icmp->icmp_data, NULL);
     len = 8 + DATALEN;
     icmp->icmp_cksum = 0;
     icmp->icmp_cksum = in_cksum((u_short *) icmp, len);
-    len = sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
-    printf("sent: %d\n", len);
 }
 
 void    sig_alrm(int signo)
 {
-	// send 
     send_v4();
 	alarm(1);
-	return;		/* probably interrupts recvfrom() */
+	return;	
+}
+
+void    readmsg(int b_read)
+{
+    struct ip       *iphdr;
+    struct icmp     *icmp;
+    struct timeval *tvsend;
+    struct timeval *tv_recv;
+    int             hdrlen;
+
+    gettimeofday(&tv_rec, NULL);
+    iphdr = (struct ip *)_g.recvbuf;
+    hdrlen = iphdr->ip_hl << 2;
+    if (iphdr->ip_p != IPPROTO_ICMP)
+        return ;
+    icmp = (struct icmp *)(iphdr + hdrlen);
+    if ((b_read - hdrlen) < 8)
+        return ;
+    if (icmp->icmp_type == ICMP_ECHOREPLY)
+    {
+        if (icmp->icmp_id != _g.pid || (b_read - hdrlen) < 16)
+            return ;
+        tvsend = (struct timeval *)icmp->icmp_data;
+        tv_sub(tv_recv, tvsend);
+         printf ("%d bytes from %s: seq=%u, ttl=%d, rtt=%.3f ms\n",
+            (b_read - hdrlen), "google.com", icmp->icmp_seq, 
+            iphdr->ip_ttl, tv_recv->tv_sec * 1000.0 +
+            tv_recv->tv_usec / 1000.0);
+    }
 }
 
 void    readloop(void)
@@ -70,14 +110,11 @@ void    readloop(void)
         _g.msg.msg_namelen = _g.ssendlen;
         _g.msg.msg_controllen = sizeof(_g.ctrl_buf);
         _tmp = recvmsg(_g.sockfd, &_g.msg, 0);
-        printf("%d\n", _tmp);
+        if (_tmp < 0)
+            if (errno = EINTR)
+                continue ; 
+            else
+                error("recvmsg error");
+        readmsg(_tmp);
     }
-    // sig_alarm(SIGALRM);
-    
-    // while (1)
-    // {
-    //     n = ft_recvmsg();
-    //     // gettimeofday(&tval, NULL);
-    //     printf("received: %ld\n", n);
-    // }
 }
