@@ -77,7 +77,6 @@ void    readmsg(int b_read)
     gettimeofday(&tvrecv, NULL);
     iphdr = (struct ip *)_g.recvbuf;
     hdrlen = iphdr->ip_hl << 2;
-    printf("hdrlen: %d iphdr->ip_hl: %d\n", hdrlen, iphdr->ip_hl);
     if (iphdr->ip_p != IPPROTO_ICMP)
         return ;
     icmp = (struct icmp *)(iphdr + hdrlen);
@@ -102,8 +101,8 @@ void    readloop(void)
 {
     int             _tmp;
    
-    _g.pid = getuid();
-    setuid(_g.pid);
+    _g.pid = getpid() & Oxffff;
+    setuid(getuid());
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, IPPROTO_ICMP);
     _tmp = 60 * 1024;
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));
