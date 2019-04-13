@@ -8,25 +8,28 @@ void        error(char *str)
 
 void   tv_sub (struct timeval *out, struct timeval *in)
 {
-        if ((out->tv_usec -= in->tv_usec) < 0) {     /* out -= in */
-             --out->tv_sec;
+    if ((out->tv_usec -= in->tv_usec) < 0) 
+    {    
+        --out->tv_sec;
         out->tv_usec += 1000000;
-        }
-        out->tv_sec -= in->tv_sec;
+    }
+    out->tv_sec -= in->tv_sec;
 }
 
 uint16_t    in_cksum (uint16_t * addr, int len)
  {
-    int     nleft = len;
-    uint32_t sum = 0;
-    uint16_t *w = addr;
-    uint16_t answer = 0;
+    int         nleft = len;
+    uint32_t    sum = 0;
+    uint16_t    *w = addr;
+    uint16_t    answer = 0;
 
-    while (nleft > 1) {
+    while (nleft > 1)
+    {
         sum += *w++;
         nleft -= 2;
      }
-    if (nleft == 1) {
+    if (nleft == 1)
+    {
         * (unsigned char *) (&answer) = * (unsigned char *) w;
         sum += answer;
      }
@@ -67,6 +70,7 @@ void    readmsg(int b_read)
     struct icmp     *icmp;
     struct timeval *tvsend;
     struct timeval  tv_recv;
+    double          _tmp;
     int             hdrlen;
 
     gettimeofday(&tv_recv, NULL);
@@ -83,10 +87,10 @@ void    readmsg(int b_read)
             return ;
         tvsend = (struct timeval *)icmp->icmp_data;
         tv_sub(&tv_recv, tvsend);
-         printf ("%d bytes from %s: seq=%u, ttl=%d, rtt=%.3f ms\n",
+        _tmp = tv_recv.tv_sec * 1000.0 + tv_recv.tv_usec / 1000.0
+        printf ("%d bytes from %s: seq=%u, ttl=%d, rtt=%.3f ms\n",
             (b_read - hdrlen), "google.com", icmp->icmp_seq, 
-            iphdr->ip_ttl, tv_recv.tv_sec * 1000.0 +
-            tv_recv.tv_usec / 1000.0);
+            iphdr->ip_ttl, _tmp);
     }
 }
 

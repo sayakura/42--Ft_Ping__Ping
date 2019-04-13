@@ -25,6 +25,11 @@ void   ping_init(char *host)
     static char         addrstr[100];
 
     ret = host_to_addrinfo(host, NULL, AF_INET, SOCK_STREAM);
+    if (!ret)
+    {
+        fprintf(stderr, "ping: cannot resolve %s: Unknown host", host);
+        exit(EXIT_FAILURE);
+    }
     _g.ssend = ret->ai_addr;
     _g.ssendlen = ret->ai_addrlen;
     if (ret->ai_family == AF_INET)
@@ -32,7 +37,7 @@ void   ping_init(char *host)
     else if (ret->ai_family == AF_INET6)
         ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
-    printf("ip found: %s\n", _g.ip);
+    printf("PING %s (%s): %d data bytes\n", host, _g.ip, DATALEN);
     readloop();
 }
 
