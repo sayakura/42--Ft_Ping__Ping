@@ -80,7 +80,7 @@ void    readmsg(int b_read)
     if (iphdr->ip_p != IPPROTO_ICMP)
         return ;
     icmp = (struct icmp *)(iphdr + hdrlen);
-    printf("struct icmp: type: %d, code: %d, id: %d seq: %d\n", imcp->icmp_type, icmp->icmp_code, icmp->icmp_id, icmp->icmp_seq);
+    printf("struct icmp: type: %d, code: %d, id: %d seq: %d\n", icmp->icmp_type, icmp->icmp_code, icmp->icmp_id, icmp->icmp_seq);
     if ((b_read - hdrlen) < 8)
         return ;
     if (icmp->icmp_type == ICMP_ECHOREPLY)
@@ -101,7 +101,7 @@ void    readloop(void)
 {
     int             _tmp;
    
-    _g.pid = getpid() & Oxffff;
+    _g.pid = getpid() & 0xffff;
     setuid(getuid());
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, IPPROTO_ICMP);
     _tmp = 60 * 1024;
