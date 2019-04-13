@@ -117,7 +117,7 @@ void    readloop(void)
         _g.msg.msg_namelen = _g.ssendlen;
         _g.msg.msg_controllen = sizeof(_g.ctrl_buf);
         _tmp = recvmsg(_g.sockfd, &_g.msg, 0);
-        printf("received: %d\n", _tmp);
+        printf("%s\n", _g.recvbuf);
         if (_tmp < 0)
             if (errno = EINTR)
                 continue ; 
