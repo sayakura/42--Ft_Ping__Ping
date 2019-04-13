@@ -79,8 +79,7 @@ void    readmsg(int b_read)
     if (iphdr->ip_p != IPPROTO_ICMP)
         return ;
     icmp = (struct icmp *)(iphdr + hdrlen);
-    printf("%d\n", phdr->ip_p);
-    printf("struct icmp: type: %d, code: %d, id: %d seq: %d\n", icmp->icmp_type, icmp->icmp_code, icmp->icmp_id, icmp->icmp_seq);
+    printf("struct icmp: type: %d, code: %d, id: %d seq: %d, icmp_cksum: %d\n", icmp->icmp_type, icmp->icmp_code, icmp->icmp_id, icmp->icmp_seq, icmp->icmp_cksum);
     if ((b_read - hdrlen) < 8)
         return ;
     if (icmp->icmp_type == ICMP_ECHOREPLY)
