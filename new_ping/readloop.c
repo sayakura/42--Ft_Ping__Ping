@@ -48,7 +48,6 @@ void    send_v4(void)
     icmp->icmp_type = ICMP_ECHO;
     icmp->icmp_code = 0;
     icmp->icmp_id = _g.pid;
-    printf("%d\n",  _g.msg_cnt);
     icmp->icmp_seq = _g.msg_cnt++;
     memset(icmp->icmp_data, 0xff, DATALEN);
     gettimeofday((struct timeval *)icmp->icmp_data, NULL);
@@ -118,6 +117,7 @@ void    readloop(void)
         _g.msg.msg_namelen = _g.ssendlen;
         _g.msg.msg_controllen = sizeof(_g.ctrl_buf);
         _tmp = recvmsg(_g.sockfd, &_g.msg, 0);
+        printf("received: %d\n", _tmp);
         if (_tmp < 0)
             if (errno = EINTR)
                 continue ; 
