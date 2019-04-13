@@ -80,7 +80,7 @@ void    readmsg(int b_read, char *recvbuff)
         return ;
     printf("%lld %lld\n", iphdr, recvbuff);
     printf("%lld %lld\n", iphdr + hdrlen, recvbuff + hdrlen);
-    icmp = (struct icmp *)(recvbuff + hdrlen);
+    icmp = (struct icmp *)(iphdr + hdrlen);
     if ((b_read - hdrlen) < 8)
         return ;
     if (icmp->icmp_type == ICMP_ECHOREPLY)
