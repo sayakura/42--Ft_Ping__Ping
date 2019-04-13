@@ -78,8 +78,6 @@ void    readmsg(int b_read, char *recvbuff)
     hdrlen = iphdr->ip_hl << 2;
     if (iphdr->ip_p != IPPROTO_ICMP)
         return ;
-    printf("%lld %lld\n", iphdr, recvbuff);
-    printf("%lld %lld\n", iphdr + hdrlen, recvbuff + hdrlen);
     icmp = (struct icmp *)(recvbuff + hdrlen);
     if ((b_read - hdrlen) < 8)
         return ;
@@ -89,10 +87,9 @@ void    readmsg(int b_read, char *recvbuff)
             return ;
         tvsend = (struct timeval *)icmp->icmp_data;
         tv_sub(&tvrecv, tvsend);
-        _tmp = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
         printf ("%d bytes from %s: icmp_seq=%u, ttl=%d, time=%.3f ms\n",
             (b_read - hdrlen), "google.com", icmp->icmp_seq, 
-            iphdr->ip_ttl, _tmp);
+            iphdr->ip_ttl, (tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0));
     }
 }
 
