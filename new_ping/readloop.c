@@ -53,7 +53,7 @@ void    send_v4(void)
     gettimeofday((struct timeval *)icmp->icmp_data, NULL);
     len = 8 + DATALEN;
     icmp->icmp_cksum = 0;
-    icmp->icmp_cksum = in_cksum((u_short *) icmp, len);
+    icmp->icmp_cksum = in_cksum((u_short *)icmp, len);
     sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
 }
 
@@ -86,6 +86,7 @@ void    readmsg(int b_read)
         if (icmp->icmp_id != _g.pid || (b_read - hdrlen) < 16)
             return ;
         tvsend = (struct timeval *)icmp->icmp_data;
+        printf("recv: %lld; send: %lld", tv_recv.tv_sec, tvsend->tv_sec);
         tv_sub(&tv_recv, tvsend);
         _tmp = tv_recv.tv_sec * 1000.0 + tv_recv.tv_usec / 1000.0;
         printf ("%d bytes from %s: seq=%u, ttl=%d, rtt=%.3f ms\n",
