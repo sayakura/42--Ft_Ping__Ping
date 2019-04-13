@@ -75,7 +75,7 @@ void    readmsg(int b_read, char *recvbuff)
 
     gettimeofday(&tvrecv, NULL);
     iphdr = (struct ip *)recvbuff;
-    printf("%lld", iphdr);
+    printf("%lld\n", iphdr);
     printf("%lld", recvbuff);
     hdrlen = iphdr->ip_hl << 2;
     if (iphdr->ip_p != IPPROTO_ICMP)
@@ -88,7 +88,6 @@ void    readmsg(int b_read, char *recvbuff)
         if (icmp->icmp_id != _g.pid || (b_read - hdrlen) < 16)
             return ;
         tvsend = (struct timeval *)icmp->icmp_data;
-        printf("recv: %lld; send: %lld", tvrecv.tv_sec, tvsend->tv_sec);
         tv_sub(&tvrecv, tvsend);
         _tmp = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
         printf ("%d bytes from %s: icmp_seq=%u, ttl=%d, time=%.3f ms\n",
