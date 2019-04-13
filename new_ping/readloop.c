@@ -87,7 +87,7 @@ void    readmsg(int b_read)
             return ;
         tvsend = (struct timeval *)icmp->icmp_data;
         tv_sub(&tv_recv, tvsend);
-        _tmp = tv_recv.tv_sec * 1000.0 + tv_recv.tv_usec / 1000.0
+        _tmp = tv_recv.tv_sec * 1000.0 + tv_recv.tv_usec / 1000.0;
         printf ("%d bytes from %s: seq=%u, ttl=%d, rtt=%.3f ms\n",
             (b_read - hdrlen), "google.com", icmp->icmp_seq, 
             iphdr->ip_ttl, _tmp);
