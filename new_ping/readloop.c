@@ -18,17 +18,17 @@ void   tv_sub (struct timeval *out, struct timeval *in)
 
 uint16_t    in_cksum (uint16_t * addr, int len)
  {
-    int         nleft = len;
-    uint32_t    sum = 0;
-    uint16_t    *w = addr;
-    uint16_t    answer = 0;
-
-    while (nleft > 1)
+    uint32_t    sum;
+    uint16_t    answer;
+    
+    answer = 0;
+    sum = 0;
+    while (len > 1)
     {
-        sum += *w++;
-        nleft -= 2;
+        sum += *addr++;
+        len -= 2;
      }
-    if (nleft == 1)
+    if (len == 1)
     {
         * (unsigned char *) (&answer) = * (unsigned char *) w;
         sum += answer;
