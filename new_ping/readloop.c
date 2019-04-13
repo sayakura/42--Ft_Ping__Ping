@@ -51,7 +51,6 @@ void    send_v4(void)
     icmp->icmp_seq = _g.msg_cnt++;
     memset(icmp->icmp_data, 0xff, DATALEN);
     gettimeofday((struct timeval *)icmp->icmp_data, NULL);
-    printf("---%lld\n", ((struct timeval *)icmp->icmp_data)->tv_sec);
     len = 8 + DATALEN;
     icmp->icmp_cksum = 0;
     icmp->icmp_cksum = in_cksum((u_short *)icmp, len);
@@ -77,6 +76,7 @@ void    readmsg(int b_read)
     gettimeofday(&tvrecv, NULL);
     iphdr = (struct ip *)_g.recvbuf;
     hdrlen = iphdr->ip_hl << 2;
+    printf("hdrlen: %d iphdr->ip_hl: %d\n", hdrlen, iphdr->ip_hl);
     if (iphdr->ip_p != IPPROTO_ICMP)
         return ;
     icmp = (struct icmp *)(iphdr + hdrlen);
