@@ -48,6 +48,7 @@ void    send_v4(void)
     icmp->icmp_type = ICMP_ECHO;
     icmp->icmp_code = 0;
     icmp->icmp_id = _g.pid;
+    printf("%d\n",  _g.msg_cnt);
     icmp->icmp_seq = _g.msg_cnt++;
     memset(icmp->icmp_data, 0xff, DATALEN);
     gettimeofday((struct timeval *)icmp->icmp_data, NULL);
@@ -90,7 +91,7 @@ void    readmsg(int b_read)
         printf("recv: %lld; send: %lld", tvrecv.tv_sec, tvsend->tv_sec);
         tv_sub(&tvrecv, tvsend);
         _tmp = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
-        printf ("%d bytes from %s: seq=%u, ttl=%d, rtt=%.3f ms\n",
+        printf ("%d bytes from %s: icmp_seq=%u, ttl=%d, time=%.3f ms\n",
             (b_read - hdrlen), "google.com", icmp->icmp_seq, 
             iphdr->ip_ttl, _tmp);
     }
