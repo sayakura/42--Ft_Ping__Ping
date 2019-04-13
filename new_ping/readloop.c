@@ -69,11 +69,12 @@ void    readmsg(int b_read)
     struct ip       *iphdr;
     struct icmp     *icmp;
     struct timeval *tvsend;
-    struct timeval  tv_recv;
+    struct timeval  tvrecv;
     double          _tmp;
     int             hdrlen;
 
-    gettimeofday(&tv_recv, NULL);
+    gettimeofday(&tvrecv, NULL);
+    printf("%lld\n", tvrecv.tv_sec);
     iphdr = (struct ip *)_g.recvbuf;
     hdrlen = iphdr->ip_hl << 2;
     if (iphdr->ip_p != IPPROTO_ICMP)
@@ -86,9 +87,9 @@ void    readmsg(int b_read)
         if (icmp->icmp_id != _g.pid || (b_read - hdrlen) < 16)
             return ;
         tvsend = (struct timeval *)icmp->icmp_data;
-        printf("recv: %lld; send: %lld", tv_recv.tv_sec, tvsend->tv_sec);
-        tv_sub(&tv_recv, tvsend);
-        _tmp = tv_recv.tv_sec * 1000.0 + tv_recv.tv_usec / 1000.0;
+        printf("recv: %lld; send: %lld", tvrecv.tv_sec, tvsend->tv_sec);
+        tv_sub(&tvrecv, tvsend);
+        _tmp = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
         printf ("%d bytes from %s: seq=%u, ttl=%d, rtt=%.3f ms\n",
             (b_read - hdrlen), "google.com", icmp->icmp_seq, 
             iphdr->ip_ttl, _tmp);
