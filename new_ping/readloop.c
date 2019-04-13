@@ -74,7 +74,7 @@ void    readmsg(int b_read)
     int             hdrlen;
 
     gettimeofday(&tvrecv, NULL);
-    iphdr = (struct ip *)_g.recvbuf;
+    iphdr = (struct ip *)_g.iov.iov_base;
     hdrlen = iphdr->ip_hl << 2;
     if (iphdr->ip_p != IPPROTO_ICMP)
         return ;
@@ -117,7 +117,6 @@ void    readloop(void)
         _g.msg.msg_namelen = _g.ssendlen;
         _g.msg.msg_controllen = sizeof(_g.ctrl_buf);
         _tmp = recvmsg(_g.sockfd, &_g.msg, 0);
-        printf("%s\n", _g.recvbuf);
         if (_tmp < 0)
             if (errno = EINTR)
                 continue ; 
