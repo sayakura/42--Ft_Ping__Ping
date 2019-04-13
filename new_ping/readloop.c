@@ -30,7 +30,7 @@ uint16_t    in_cksum (uint16_t * addr, int len)
      }
     if (len == 1)
     {
-        * (unsigned char *) (&answer) = * (unsigned char *) w;
+        * (unsigned char *) (&answer) = * (unsigned char *) addr;
         sum += answer;
      }
     sum = (sum >> 16) + (sum & 0xffff); 
