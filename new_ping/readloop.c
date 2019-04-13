@@ -75,10 +75,11 @@ void    readmsg(int b_read, char *recvbuff)
 
     gettimeofday(&tvrecv, NULL);
     iphdr = (struct ip *)recvbuff;
-    printf("%lld %lld\n", iphdr, recvbuff);
     hdrlen = iphdr->ip_hl << 2;
     if (iphdr->ip_p != IPPROTO_ICMP)
         return ;
+    printf("%lld %lld\n", iphdr, recvbuff);
+    printf("%lld %lld\n", iphdr + hdrlen, recvbuff + hdrlen);
     icmp = (struct icmp *)(recvbuff + hdrlen);
     if ((b_read - hdrlen) < 8)
         return ;
