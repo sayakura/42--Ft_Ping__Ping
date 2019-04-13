@@ -30,6 +30,8 @@ void   ping_init(char *host)
         fprintf(stderr, "ping: cannot resolve %s: Unknown host", host);
         exit(EXIT_FAILURE);
     }
+    _g.pid = getpid() & 0xffff;
+    setuid(getuid());
     _g.ssend = ret->ai_addr;
     _g.ssendlen = ret->ai_addrlen;
     if (ret->ai_family == AF_INET)

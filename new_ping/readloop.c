@@ -49,7 +49,7 @@ void    send_v4(void)
     icmp->icmp_code = 0;
     icmp->icmp_id = _g.pid;
     icmp->icmp_seq = _g.msg_cnt++;
-    memset(icmp->icmp_data, 0xff, DATALEN);
+    memset(icmp->icmp_data, 0xa5, DATALEN);
     gettimeofday((struct timeval *)icmp->icmp_data, NULL);
     len = 8 + DATALEN;
     icmp->icmp_cksum = 0;
@@ -64,7 +64,7 @@ void    sig_alrm(int signo)
 	return;	
 }
 
-void    readmsg(int b_read)
+void    readmsg(int b_read, char *recvbuff)
 {
     struct ip       *iphdr;
     struct icmp     *icmp;
@@ -74,11 +74,11 @@ void    readmsg(int b_read)
     int             hdrlen;
 
     gettimeofday(&tvrecv, NULL);
-    iphdr = (struct ip *)_g.iov.iov_base;
+    iphdr = (struct ip *)recvbuff;
     hdrlen = iphdr->ip_hl << 2;
     if (iphdr->ip_p != IPPROTO_ICMP)
         return ;
-    icmp = (struct icmp *)(iphdr + hdrlen);
+    icmp = (struct icmp *)(recvbuff + hdrlen);
     printf("struct icmp: type: %d, code: %d, id: %d seq: %d, icmp_cksum: %d\n", icmp->icmp_type, icmp->icmp_code, icmp->icmp_id, icmp->icmp_seq, icmp->icmp_cksum);
     if ((b_read - hdrlen) < 8)
         return ;
@@ -99,29 +99,29 @@ void    readmsg(int b_read)
 void    readloop(void)
 {
     int             _tmp;
+    char            recvbuff[BUFF_SIZE];
+    char            ctrlbuff[BUFF_SIZE];
    
-    _g.pid = getpid() & 0xffff;
-    setuid(getuid());
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, IPPROTO_ICMP);
     _tmp = 60 * 1024;
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));
-    _g.iov.iov_base = _g.recvbuf;
-    _g.iov.iov_len = sizeof(_g.recvbuf);
+    _g.iov.iov_base = recvbuff;
+    _g.iov.iov_len = sizeof(recvbuff);
     _g.msg.msg_name = _g.srecv;
-    _g.msg.msg_iov = &_g.iov;
+    _g.msg.msg_iov = &(_g.iov);
     _g.msg.msg_iovlen = 1;
-    _g.msg.msg_control = _g.ctrl_buf;
+    _g.msg.msg_control = ctrlbuff;
     sig_alrm(SIGALRM);
     while (1)
     {
         _g.msg.msg_namelen = _g.ssendlen;
-        _g.msg.msg_controllen = sizeof(_g.ctrl_buf);
-        _tmp = recvmsg(_g.sockfd, &_g.msg, 0);
+        _g.msg.msg_controllen = sizeof(ctrlbuff);
+        _tmp = recvmsg(_g.sockfd, &(_g.msg), 0);
         if (_tmp < 0)
             if (errno = EINTR)
                 continue ; 
             else
                 error("recvmsg error");
-        readmsg(_tmp);
+        readmsg(_tmp, recvbuf);
     }
 }
