@@ -58,7 +58,7 @@ struct s_pin_g
     double              max;
     double              avg;
     double              total;
-    
+
 
 
     int                 ssendlen;                 
@@ -100,4 +100,5 @@ struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int fam
 void                sig_alrm(int signo);
 void                readloop(void);
 void                stat_cnt(double rrt);
+void                send_v4(void);
 #endif

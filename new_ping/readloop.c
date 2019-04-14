@@ -94,7 +94,7 @@ void    readmsg_v4(int b_read, char *recvbuff)
     {
         stat_cnt(0);
         printf(" %d bytes from %s (%s): type = %d, code = %d\n",
-            (b_read - hdrlen), _g.host, _g.ip, cmp->icmp_type, icmp->icmp_code);
+            (b_read - hdrlen), _g.host, _g.ip, icmp->icmp_type, icmp->icmp_code);
     }
 }
 
