@@ -57,6 +57,8 @@ struct s_pin_g
     double              min;
     double              max;
     double              avg;
+    double              total;
+    
 
 
     int                 ssendlen;                 
