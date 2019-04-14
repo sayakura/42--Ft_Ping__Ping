@@ -54,6 +54,10 @@ struct s_pin_g
     struct iovec        iov;
     struct icmp         icmp;
     struct msghdr       msg;
+    double              min;
+    double              max;
+    double              avg;
+
 
     int                 ssendlen;                 
     unsigned int        seq;
@@ -67,11 +71,14 @@ struct s_pin_g
     pid_t               pid;
     int                 verbost;
 
+    char                *host;
     char                sendbuf[BUFF_SIZE];
     char                recvbuf[BUFF_SIZE];
 
     char                ctrl_buf[BUFF_SIZE];
 
+    bool                verbose;
+    unsigned int        pkg_received;
     unsigned int        msg_cnt;
 };
 
@@ -90,4 +97,5 @@ double              caltime(struct timeval end, struct timeval start);
 struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int family, int socktype);
 void                sig_alrm(int signo);
 void                readloop(void);
+void                stat_cnt(double rrt);
 #endif

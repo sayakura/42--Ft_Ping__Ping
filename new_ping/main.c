@@ -1,5 +1,20 @@
 #include "ping.h"
 
+
+int     sig_int(int signo)
+{
+    int         diff;
+    double      loss;
+
+    diff = _g.msg_cnt - _g.pkg_received;
+    loss = (double)diff / _g.msg_cnt * 100;
+    printf("--- %s ping statistics ---\
+        %d packets transmitted, %d packets received, %.0f%% acket loss\
+        round-trip min/avg/max= /%.3f/%.3f/%.3f ms", _g.host, _g.msg_cnt, _g.pkg_received, loss,
+        _g.min,  _g.total /  _g.pkg_received,  _g.max);
+    exit(EXIT_SUCCESS);
+}
+
 struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int family, int socktype)
 {
 	struct addrinfo	hints;
@@ -39,7 +54,7 @@ void   ping_init(char *host)
     else if (ret->ai_family == AF_INET6)
         ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
-    printf("PING %s (%s): %d data bytes\n", host, _g.ip, DATALEN);
+    printf("PING %s (%s): %d data bytes of data\n", host, _g.ip, DATALEN);
     readloop();
 }
 
@@ -51,6 +66,7 @@ int     main(int ac, char **av)
         exit(EXIT_SUCCESS);
     }
     _g.msg_cnt = 0;
+    _g.host = av[1];
     signal(SIGALRM, sig_alrm);
     //signal(SIGALRM, sig_alarm);
     ping_init(av[1]);

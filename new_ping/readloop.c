@@ -1,5 +1,12 @@
 #include "ping.h"
 
+void    sig_alrm(int signo)
+{
+    send_v4();
+	alarm(1);
+	return;	
+}
+
 void        error(char *str)
 {
     fprintf(stderr, str);
@@ -57,21 +64,13 @@ void    send_v4(void)
     sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
 }
 
-void    sig_alrm(int signo)
-{
-    send_v4();
-	alarm(1);
-	return;	
-}
-
-void    readmsg(int b_read, char *recvbuff)
+void    readmsg_v4(int b_read, char *recvbuff)
 {
     struct ip       *iphdr;
     struct icmp     *icmp;
-    struct timeval *tvsend;
     struct timeval  tvrecv;
-    double          _tmp;
     int             hdrlen;
+    double          rrt;
 
     gettimeofday(&tvrecv, NULL);
     iphdr = (struct ip *)recvbuff;
@@ -85,11 +84,17 @@ void    readmsg(int b_read, char *recvbuff)
     {
         if (icmp->icmp_id != _g.pid || (b_read - hdrlen) < 16)
             return ;
-        tvsend = (struct timeval *)icmp->icmp_data;
-        tv_sub(&tvrecv, tvsend);
-        printf ("%d bytes from %s: icmp_seq=%u, ttl=%d, time=%.3f ms\n",
-            (b_read - hdrlen), "google.com", icmp->icmp_seq, 
-            iphdr->ip_ttl, (tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0));
+        tv_sub(&tvrecv, (struct timeval *)icmp->icmp_data);
+        rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
+        stat_cnt(rrt);
+        printf("%d bytes from %s: icmp_seq=%u, ttl=%d, time=%.3f ms\n",
+            (b_read - hdrlen), "google.com", icmp->icmp_seq, iphdr->ip_ttl, rrt);
+    }
+    else if (_g.verbose)
+    {
+        stat_cnt(0);
+        printf(" %d bytes from %s (%s): type = %d, code = %d\n",
+            (b_read - hdrlen), _g.host, _g.ip, cmp->icmp_type, icmp->icmp_code);
     }
 }
 
@@ -119,6 +124,6 @@ void    readloop(void)
                 continue ; 
             else
                 error("recvmsg error");
-        readmsg(_tmp, recvbuff);
+        readmsg_v4(_tmp, recvbuff);
     }
 }
