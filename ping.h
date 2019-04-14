@@ -40,8 +40,9 @@
 # define PING_PKG_SIZ 56
 # define PING_TIMEOUT 4
 # define BUFF_SIZE 1024
-
-
+# define IP_HDR_LEN 20
+# define ICMP_HDR_KEN 8
+# define PCKSIZE(datalen) (DATALEN + IP_HDR_LEN + ICMP_HDR_KEN)
 enum    e_ping
 {
     DATALEN = 56,
