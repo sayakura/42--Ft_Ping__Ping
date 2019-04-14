@@ -68,6 +68,7 @@ int     main(int ac, char **av)
     _g.msg_cnt = 0;
     _g.host = av[1];
     signal(SIGALRM, sig_alrm);
+    signal(SIGINT, sig_int);
     //signal(SIGALRM, sig_alarm);
     ping_init(av[1]);
     return (0);
