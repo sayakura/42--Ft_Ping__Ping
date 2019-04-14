@@ -74,6 +74,7 @@ struct s_pin_g
     int                 verbost;
 
     char                *host;
+    char                *r_host;
     char                sendbuf[BUFF_SIZE];
     char                recvbuf[BUFF_SIZE];
 

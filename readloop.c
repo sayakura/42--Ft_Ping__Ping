@@ -88,7 +88,7 @@ void    readmsg_v4(int b_read, char *recvbuff)
         rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
         stat_cnt(rrt);
         printf("%d bytes from %s: icmp_seq=%u, ttl=%d, time=%.3f ms\n",
-            (b_read - hdrlen), "google.com", icmp->icmp_seq, iphdr->ip_ttl, rrt);
+            (b_read - hdrlen), _g.r_host ? _g.r_host : _g.host, icmp->icmp_seq, iphdr->ip_ttl, rrt);
     }
     else if (_g.verbose)
     {

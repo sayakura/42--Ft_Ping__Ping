@@ -10,7 +10,7 @@ void     sig_int(int signo)
     loss = (double)diff / _g.msg_cnt * 100;
     printf("\n--- %s ping statistics ---\n", _g.host);
     printf("%d packets transmitted, %d received, %.0f%% packet loss\n",_g.msg_cnt, _g.pkg_received, loss); 
-    printf("rtt min/avg/max= /%.3fms/%.3fms/%.3f ms\n", _g.min, _g.total /  _g.pkg_received,  _g.max);
+    printf("rtt min/avg/max= /%.3f/%.3f/%.3f\n", _g.min, _g.total /  _g.pkg_received,  _g.max);
     exit(EXIT_SUCCESS);
 }
 
@@ -53,6 +53,7 @@ void   ping_init(char *host)
     else if (ret->ai_family == AF_INET6)
         ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
+    _g.r_host = reverse_dns_lookup(_g.ip);
     printf("PING %s (%s): %d data bytes of data\n", host, _g.ip, DATALEN);
     readloop();
 }
