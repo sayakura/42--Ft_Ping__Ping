@@ -1,7 +1,7 @@
 #include "ping.h"
 
 
-int     sig_int(int signo)
+void     sig_int(int signo)
 {
     int         diff;
     double      loss;
