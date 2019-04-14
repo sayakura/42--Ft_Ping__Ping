@@ -44,7 +44,6 @@ void   ping_init(char *host)
         fprintf(stderr, "ping: cannot resolve %s: Unknown host", host);
         exit(EXIT_FAILURE);
     }
-    printf("[%s]\n", ret->ai_canonname);
     _g.pid = getpid() & 0xffff;
     setuid(getuid());
     _g.ssend = ret->ai_addr;

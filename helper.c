@@ -29,5 +29,6 @@ char* reverse_dns_lookup(char *ip_addr)
         return NULL; 
     ret_buf = (char*)malloc((strlen(buf) +1)*sizeof(char) ); 
     strcpy(ret_buf, buf); 
+    printf("[%s]\n", ret_buf);
     return ret_buf; 
 } 
