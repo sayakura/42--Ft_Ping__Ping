@@ -9,8 +9,7 @@ void     sig_int(int signo)
     diff = _g.msg_cnt - _g.pkg_received;
     loss = (double)diff / _g.msg_cnt * 100;
     printf("\n--- %s ping statistics ---\n", _g.host);
-    printf("%d packets transmitted, %d packets received, %.0f%% packet loss\n",_g.msg_cnt, _g.pkg_received, loss,
-    ); 
+    printf("%d packets transmitted, %d packets received, %.0f%% packet loss\n",_g.msg_cnt, _g.pkg_received, loss); 
     printf("rtt min/avg/max= /%.3fms/%.3fms/%.3f ms\n", _g.min, _g.total /  _g.pkg_received,  _g.max);
     exit(EXIT_SUCCESS);
 }
