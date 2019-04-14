@@ -41,6 +41,12 @@
 # define PING_TIMEOUT 4
 # define BUFF_SIZE 1024
 
+
+enum    e_ping
+{
+    DATALEN = 56,
+};
+
 struct s_pin_g
 {
     struct sockaddr     *ssend;
@@ -48,6 +54,13 @@ struct s_pin_g
     struct iovec        iov;
     struct icmp         icmp;
     struct msghdr       msg;
+    double              min;
+    double              max;
+    double              avg;
+    double              total;
+
+
+
     int                 ssendlen;                 
     unsigned int        seq;
     int                 datalen;
@@ -56,29 +69,36 @@ struct s_pin_g
     int                 time_out;
     int                 sockfd;
     char                *r_host;
-    char                *ip;
+    char                ip[100];
     pid_t               pid;
     int                 verbost;
 
+    char                *host;
     char                sendbuf[BUFF_SIZE];
     char                recvbuf[BUFF_SIZE];
 
+    char                ctrl_buf[BUFF_SIZE];
 
-    char                ctrl_buf[BUFF_SIZE];;
+    bool                verbose;
+    unsigned int        pkg_received;
     unsigned int        msg_cnt;
 };
 
-typedef struct s_ping_pkt 
-{ 
-    struct icmphdr  hdr; 
-    char            msg[PING_PKG_SIZ - sizeof(struct icmphdr)]; 
-}               t_ping_pkt;
+// typedef struct s_ping_pkt 
+// { 
+//     struct icmphdr  hdr; 
+//     char            msg[PING_PKG_SIZ - sizeof(struct icmphdr)]; 
+// }               t_ping_pkt;
 
 struct s_pin_g _g;
 
-char                   *lookup_host (const char *host);
+char                *lookup_host (const char *host);
 char                *reverse_dns_lookup(char *ip_addr);
 u_int8_t            get_checksum(uint16_t *b, int len);
 double              caltime(struct timeval end, struct timeval start);
 struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int family, int socktype);
+void                sig_alrm(int signo);
+void                readloop(void);
+void                stat_cnt(double rrt);
+void                send_v4(void);
 #endif
