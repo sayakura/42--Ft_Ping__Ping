@@ -26,10 +26,7 @@ char* reverse_dns_lookup(char *ip_addr)
     len = sizeof(struct sockaddr_in); 
     if (getnameinfo((struct sockaddr *) &temp_addr, len, buf,  
                     sizeof(buf), NULL, 0, NI_NAMEREQD))  
-    { 
-        printf("Could not resolve reverse lookup of hostname\n"); 
         return NULL; 
-    } 
     ret_buf = (char*)malloc((strlen(buf) +1)*sizeof(char) ); 
     strcpy(ret_buf, buf); 
     return ret_buf; 
