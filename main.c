@@ -54,7 +54,7 @@ void   ping_init(char *host)
         ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
     _g.r_host = reverse_dns_lookup(_g.ip);
-    printf("PING %s (%s): %d data (%d) bytes of data\n", host, _g.ip, DATALEN, PCKSIZE);
+    printf("PING %s (%s): %d data (%d) bytes of data\n", host, _g.ip, DATALEN, PCKSIZE(DATALEN));
     readloop();
 }
 
