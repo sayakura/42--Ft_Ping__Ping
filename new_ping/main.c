@@ -8,8 +8,8 @@ void     sig_int(int signo)
 
     diff = _g.msg_cnt - _g.pkg_received;
     loss = (double)diff / _g.msg_cnt * 100;
-    printf("--- %s ping statistics ---\
-        %d packets transmitted, %d packets received, %.0f%% acket loss\
+    printf("--- %s ping statistics ---\n\
+        %d packets transmitted, %d packets received, %.0f%% acket loss\n\
         round-trip min/avg/max= /%.3f/%.3f/%.3f ms", _g.host, _g.msg_cnt, _g.pkg_received, loss,
         _g.min,  _g.total /  _g.pkg_received,  _g.max);
     exit(EXIT_SUCCESS);
