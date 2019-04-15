@@ -23,28 +23,6 @@ void   tv_sub(struct timeval *out, struct timeval *in)
     out->tv_sec -= in->tv_sec;
 }
 
-uint16_t    in_cksum (uint16_t * addr, int len)
- {
-    uint32_t    sum;
-    uint16_t    answer;
-    
-    answer = 0;
-    sum = 0;
-    while (len > 1)
-    {
-        sum += *addr++;
-        len -= 2;
-     }
-    if (len == 1)
-    {
-        * (unsigned char *) (&answer) = * (unsigned char *) addr;
-        sum += answer;
-     }
-    sum = (sum >> 16) + (sum & 0xffff); 
-    sum += (sum >> 16); 
-    answer = ~sum; 
-    return (answer);
-}
 
 
 void    readloop(void)
