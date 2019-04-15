@@ -8,15 +8,9 @@ void    stat_cnt(double rrt)
     {
         _g.total += rrt;
         if (rrt < _g.min || _g.min == 0.0000)
-        {
             _g.min = rrt;
-            printf("min: %f\n", rrt);
-        }
-        else if (rrt > _g.max)
-        {
+        if (rrt > _g.max)
             _g.max = rrt;
-            printf("max: %f\n", rrt);
-        }
     }
 }
 
