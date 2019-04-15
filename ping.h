@@ -58,9 +58,9 @@ struct s_pin_g
     double              max;
     double              avg;
     double              total;
-
-
-
+    void                (*ft_send)(void);
+    void                (*ft_recv)(int, char *);
+    
     int                 ssendlen;                 
     unsigned int        seq;
     int                 datalen;
@@ -100,6 +100,9 @@ struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int fam
 void                sig_alrm(int signo);
 void                readloop(void);
 void                stat_cnt(double rrt);
-void                send_v4(void);
 void                tv_sub(struct timeval *out, struct timeval *in);
+void                send_v4(void);
+void                send_v6(void);
+void                readmsg_v4(int b_read, char *recvbuff);
+void                readmsg_v6(int b_read, char *recvbuff);
 #endif

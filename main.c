@@ -25,16 +25,15 @@ struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int fam
     struct addrinfo *res;
 
 	bzero(&hints, sizeof(struct addrinfo));
-	hints.ai_flags = AI_CANONNAME;	/* always return canonical name */
-	hints.ai_family = family;		/* 0, AF_INET, AF_INET6, etc. */
-	hints.ai_socktype = socktype;	/* 0, SOCK_STREAM, SOCK_DGRAM, etc. */
-
+	hints.ai_flags = AI_CANONNAME;
+	hints.ai_family = family;
+	hints.ai_socktype = socktype;
 	if (getaddrinfo(host, serv, &hints, &res) != 0)
     {
         fprintf(stderr, "ping: %s: Name or service not known\n", host);
         exit(EXIT_FAILURE);
     }
-	return(res);	                /* return pointer to first on linked list */
+	return(res);
 }
 
 void   ping_init(char *host)
@@ -53,10 +52,10 @@ void   ping_init(char *host)
     setuid(getuid());
     _g.ssend = ret->ai_addr;
     _g.ssendlen = ret->ai_addrlen;
-    if (ret->ai_family == AF_INET)
-        ptr = &((struct sockaddr_in *) ret->ai_addr)->sin_addr;
-    else if (ret->ai_family == AF_INET6)
-        ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
+    ptr = ret->ai_family == AF_INET ? &((struct sockaddr_in *) ret->ai_addr)->sin_addr\
+        : &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
+    _g.ft_send = ret->ai_family == AF_INET ? send_v4 : send_v6;
+    _g.ft_recv = ret->ai_family == AF_INET ? readmsg_v4 : readmsg_v6;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
     _g.r_host = reverse_dns_lookup(_g.ip);
     printf("PING %s (%s): %d data (%d) bytes of data\n", host, _g.ip, DATALEN, PCKSIZE(DATALEN));
