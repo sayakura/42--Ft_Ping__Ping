@@ -36,7 +36,7 @@
 #include <netinet/in.h>
 
 # define XOR(a) a ^= a
-# define PING_TTL 51
+# define PING_TTL 255
 # define PING_PKG_SIZ 56
 # define PING_TIMEOUT 4
 # define BUFF_SIZE 1024

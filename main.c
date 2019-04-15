@@ -13,8 +13,9 @@ void     sig_int(int signo)
     diff = _g.msg_cnt - _g.pkg_received;
     loss = (double)diff / _g.msg_cnt * 100;
     printf("\n--- %s ping statistics ---\n", _g.host);
-    printf("%d packets transmitted, %d received, %.0f%% packet loss time %.0f\n",_g.msg_cnt, _g.pkg_received, loss, rrt); 
-    printf("rtt min/avg/max= /%.3f/%.3f/%.3f\n", _g.min, _g.total /  _g.pkg_received,  _g.max);
+    printf("%d packets transmitted, %d received, %.0f%% packet loss time %.0f ms\n",\
+    _g.msg_cnt, _g.pkg_received, loss, rrt); 
+    printf("rtt min/avg/max= /%.3f/%.3f/%.3f ms\n", _g.min, _g.total /  _g.pkg_received,  _g.max);
     exit(EXIT_SUCCESS);
 }
 
@@ -30,7 +31,7 @@ struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int fam
 
 	if (getaddrinfo(host, serv, &hints, &res) != 0)
     {
-        fprintf(stderr, "Can't find address info\n");
+        fprintf(stderr, "ping: %s: Name or service not known\n", host);
         exit(EXIT_FAILURE);
     }
 	return(res);	                /* return pointer to first on linked list */
@@ -75,7 +76,6 @@ int     main(int ac, char **av)
     _g.max = 0.0000;
     signal(SIGALRM, sig_alrm);
     signal(SIGINT, sig_int);
-    //signal(SIGALRM, sig_alarm);
     ping_init(av[1]);
     return (0);
 }
