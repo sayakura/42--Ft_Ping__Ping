@@ -4,13 +4,16 @@
 void    stat_cnt(double rrt)
 {
     _g.pkg_received++;
-    if (rrt)
+    if (rrt != 0)
     {
         _g.total += rrt;
         if (rrt < _g.min || _g.min == 0.0000)
             _g.min = rrt;
         else if (rrt > _g.max)
+        {
             _g.max = rrt;
+            printf("max: %f\n", rrt);
+        }
     }
 }
 

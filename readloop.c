@@ -86,9 +86,9 @@ void    readmsg_v4(int b_read, char *recvbuff)
             return ;
         tv_sub(&tvrecv, (struct timeval *)icmp->icmp_data);
         rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
+        stat_cnt(rrt);
         printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
             (b_read - hdrlen), _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp->icmp_seq, iphdr->ip_ttl, rrt);
-        stat_cnt(rrt);
     }
     else if (_g.verbose)
     {
