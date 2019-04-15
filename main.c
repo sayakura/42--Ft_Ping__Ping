@@ -5,11 +5,15 @@ void     sig_int(int signo)
 {
     int         diff;
     double      loss;
+    double      rrt;
 
+    gettimeofday(&_g._tv_end,NULL);
+    tv_sub(&_g._tv_end, &_g._tv_start);
+    rrt = _g._tv_end.tv_sec * 1000.0 +  _g._tv_end.tv_usec / 1000.0;
     diff = _g.msg_cnt - _g.pkg_received;
     loss = (double)diff / _g.msg_cnt * 100;
     printf("\n--- %s ping statistics ---\n", _g.host);
-    printf("%d packets transmitted, %d received, %.0f%% packet loss\n",_g.msg_cnt, _g.pkg_received, loss); 
+    printf("%d packets transmitted, %d received, %.0f%% packet loss time %.0f\n",_g.msg_cnt, _g.pkg_received, loss, rrt); 
     printf("rtt min/avg/max= /%.3f/%.3f/%.3f\n", _g.min, _g.total /  _g.pkg_received,  _g.max);
     exit(EXIT_SUCCESS);
 }

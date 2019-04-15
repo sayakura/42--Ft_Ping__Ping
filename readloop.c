@@ -13,7 +13,7 @@ void        error(char *str)
     exit(EXIT_FAILURE);
 }
 
-void   tv_sub (struct timeval *out, struct timeval *in)
+void   tv_sub(struct timeval *out, struct timeval *in)
 {
     if ((out->tv_usec -= in->tv_usec) < 0) 
     {    
@@ -104,6 +104,7 @@ void    readloop(void)
     char            recvbuff[BUFF_SIZE];
     char            ctrlbuff[BUFF_SIZE];
    
+    gettimeofday(_g._tv_start, NULL);
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, IPPROTO_ICMP);
     _tmp = 60 * 1024;
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));

@@ -52,6 +52,8 @@ struct s_pin_g
     struct iovec        iov;
     struct icmp         icmp;
     struct msghdr       msg;
+    struct timeval      _tv_start;
+    struct timeval      _tv_end;
     double              min;
     double              max;
     double              avg;
@@ -99,4 +101,5 @@ void                sig_alrm(int signo);
 void                readloop(void);
 void                stat_cnt(double rrt);
 void                send_v4(void);
+void                tv_sub(struct timeval *out, struct timeval *in);
 #endif
