@@ -52,7 +52,10 @@ void   ping_init(char *host)
     setuid(getuid());
     _g.ssend = ret->ai_addr;
     _g.ssendlen = ret->ai_addrlen;
-    ptr = (ret->ai_family == AF_INET) ? &((struct sockaddr_in *) ret->ai_addr)->sin_addr : &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
+    if (ret->ai_family == AF_INET)
+        ptr = &((struct sockaddr_in *) ret->ai_addr)->sin_addr;
+    else
+        ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
     _g.ft_send = (ret->ai_family == AF_INET) ? send_v4 : send_v6;
     _g.ft_recv = (ret->ai_family == AF_INET) ? readmsg_v4 : readmsg_v6;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
