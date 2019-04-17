@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ping.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/08 06:56:28 by kura             ###   ########.fr       */
+/*   Updated: 2019/04/17 14:52:23 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define DATALEN 56
 # define PCKSIZE(datalen) (DATALEN + IP_HDR_LEN + ICMP_HDR_KEN)
 
-struct s_pin_g
+struct              s_pin_g
 {
     struct sockaddr     *ssend;
     struct sockaddr     *srecv;
@@ -84,13 +84,7 @@ struct s_pin_g
     unsigned int        msg_cnt;
 };
 
-// typedef struct s_ping_pkt 
-// { 
-//     struct icmphdr  hdr; 
-//     char            msg[PING_PKG_SIZ - sizeof(struct icmphdr)]; 
-// }               t_ping_pkt;
-
-struct s_pin_g _g;
+struct s_pin_g       _g;
 
 char                *lookup_host (const char *host);
 char                *reverse_dns_lookup(char *ip_addr);

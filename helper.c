@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helper.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
+/*   Updated: 2019/04/17 14:52:58 by qpeng            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ping.h"
 
 
@@ -29,4 +41,12 @@ char* reverse_dns_lookup(char *ip_addr)
         return (ip_addr); 
     strcpy(ret_buf, buf); 
     return ret_buf; 
-} 
+}
+
+
+void    readopt(int ac, char **av)
+{
+    int     rcx;
+
+    rcx = 0;
+}
