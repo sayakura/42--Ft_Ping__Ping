@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 11:10:31 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 11:13:49 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,26 @@ void    send_v6(void)
 
 static void print_msg(int b_recv, struct icmp *icmp, double rrt, int ttl, bool is_echo)
 {
+    char    bell_char;
+
+    bell_char = 0x07;
     stat_cnt(is_echo ? rrt : NOT_ECHO);
     if (!_g.quiet)
     {
         if (is_echo)
-            printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
-                    b_recv, _g.r_host ? _g.r_host : _g.host, _g.ip, icmp->icmp_seq, ttl, rrt);
+        {
+            if (_g.r_ns_lookup)
+                printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
+                        b_recv, _g.r_host ? _g.r_host : _g.host, _g.ip, icmp->icmp_seq, ttl, rrt);
+            else
+                printf("%d bytes from %s: icmp_seq=%u, ttl=%d, time=%.3f ms\n",
+                        b_recv, _g.ip, icmp->icmp_seq, ttl, rrt);
+        }
         else
             printf(" %d bytes from %s (%s): type = %d, code = %d\n",
                 b_recv, _g.host, _g.ip, icmp->icmp_seq, icmp->icmp_code);
+        if (_g.bell)
+            write(1, &bell_char, 1);
     }
     if (!_g.times)
         sig_int(SIGINT);

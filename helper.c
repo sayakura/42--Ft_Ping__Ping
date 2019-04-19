@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 11:08:26 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 11:12:24 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@ const char   g_flag_lookup[] = {
 };
 void    stat_cnt(double rrt)
 {
-    char    bell_char;
-
-    bell_char = 0x07;
     _g.pkg_received++;
-    if (_g.bell)
-        write(1, &bell_char, 1);
     if (rrt != NOT_ECHO)
     {
         _g.total += rrt;
