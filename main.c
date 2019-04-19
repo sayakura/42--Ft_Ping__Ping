@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 09:52:47 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 09:53:20 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int     main(int ac, char **av)
     _g.min = 0.0000;
     _g.max = 0.0000;
     _g.times = INT32_MAX;
+    _g.duration = 1;
     signal(SIGALRM, sig_alrm);
     signal(SIGINT, sig_int);
     ping_init(av[1]);
