@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 10:29:57 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 10:31:16 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void    readmsg_v4(int b_read, char *recvbuff)
         if (!_g.quiet)
             printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
                 (b_read - hdrlen), _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp->icmp_seq, iphdr->ip_ttl, rrt);
-        if (!--_g.times)
+        if (!_g.times)
             sig_int(SIGINT);
     }
     else if (_g.verbose)
@@ -149,7 +149,7 @@ void    readmsg_v4(int b_read, char *recvbuff)
         if (!_g.quiet)
             printf(" %d bytes from %s (%s): type = %d, code = %d\n",
                 (b_read - hdrlen), _g.host, _g.ip, icmp->icmp_type, icmp->icmp_code);
-        if (!--_g.times)
+        if (!_g.times)
             sig_int(SIGINT);
     }
 }
