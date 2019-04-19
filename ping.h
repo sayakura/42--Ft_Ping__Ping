@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/18 17:17:25 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/18 21:36:53 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 #include <resolv.h>
 #include <netdb.h> 
 #include <netinet/in.h>
+#include <netinet/icmp6.h>
 
 # define XOR(a) a ^= a
 # define PING_TTL 255
@@ -122,4 +123,5 @@ void                send_v6(void);
 void                readmsg_v4(int b_read, char *recvbuff);
 void                readmsg_v6(int b_read, char *recvbuff);
 void                sig_int(int signo);
+void                readopt(int ac, char **av);
 #endif
