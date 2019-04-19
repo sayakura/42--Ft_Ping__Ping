@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 09:59:45 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 10:58:30 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int     main(int ac, char **av)
     _g.max = 0.0000;
     _g.times = INT32_MAX;
     _g.duration = 1;
+    _g.r_ns_lookup = true;
     readopt(ac, av);
     signal(SIGALRM, sig_alrm);
     signal(SIGINT, sig_int);
