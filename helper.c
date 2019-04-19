@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 12:25:41 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 12:39:59 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void    arg_check(int rcx, int ac, char **av, int flag)
     {
         fprintf(stderr, "ping: option requires an argument -- %c\n"\
         , g_flag_lookup[flag]);
-        print_usage();
+        printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");
+        exit(EXIT_SUCCESS);
     }
 }
 
