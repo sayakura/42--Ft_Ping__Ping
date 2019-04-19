@@ -6,16 +6,20 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/17 14:52:58 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/18 17:20:05 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ping.h"
 
-
 void    stat_cnt(double rrt)
 {
+    char    bell_char;
+
+    bell_char = 0x07;
     _g.pkg_received++;
+    if (_g.bell)
+        write(1, &bell_char, 1);
     if (rrt != 0)
     {
         _g.total += rrt;
@@ -43,10 +47,72 @@ char* reverse_dns_lookup(char *ip_addr)
     return ret_buf; 
 }
 
+void    print_usage(void)
+{
+    printf("ping: option requires an argument -- h\n");
+    printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");
+    exit(EXIT_SUCCESS);
+}
+
+void    arg_check(int rcx, int ac, char **av, int flag)
+{
+    if (!last_arg(rcx, ac))
+    {
+        if (atoi(av[rcx + 1]) != 0)
+        {
+            if (flag == PING_FLAG_C)
+                _g.times = atoi(av[rcx + 1]);
+            else if (flag == PING_FLAG_I)
+                _g.duration = atoi(av[rcx + 1]);
+        }
+        else
+        {
+            fprintf(stderr, "%s `%s`", g_err_msg_fmt[flag], av[rcx + 1]);
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        fprintf(stderr, "ping: option requires an argument -- %c\n"\
+        , g_flag_lookup[flag]);
+        print_usage();
+    }
+}
+
+void    bonus_flag(int rcx, int ac, char **av)
+{
+    if (!strcmp(av[rcx], "-c"))
+        arg_check(rcx, ac, av, PING_FLAG_C);
+    else if (!strcmp(av[rcx], "-i"))
+        arg_check(rcx, ac, av, PING_FLAG_I);
+    else if (!strcmp(av[rcx], "-n"))
+        _g.r_ns_lookup = false;
+    else if (!strcmp(av[rcx], "-a"))
+        _g.bell = true;
+    else if (!strcmp(av[rcx], "-q"))
+        _g.quiet = true;
+}
 
 void    readopt(int ac, char **av)
 {
     int     rcx;
 
-    rcx = 0;
+    rcx = -1;
+    while(++rcx < ac)
+    {
+        if (!strcmp(av[rcx], "-v"))
+            _g.verbose = true;
+        else if (!strcmp(av[rcx], "-h"))
+        {
+            if (!last_arg(rcx, ac))
+            {
+                fprintf(stderr, "ping: invalid increment size: %s",\
+                av[rcx + 1]);   
+                exit(EXIT_FAILURE);
+            }
+            else
+                print_usage();
+        }
+        bonus_flag(rcx, ac, av);
+    }
 }

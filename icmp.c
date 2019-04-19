@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/17 14:51:55 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/18 17:14:37 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void    send_v6(void)
     sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
 }
 
-void    readmsg_v4(int b_read, char *recvbuff)
+void    readmsg_v6(int b_read, char *recvbuff)
 {
     struct icmp6_hdr    *icmp6;
     struct timeval      tvrecv;
@@ -101,18 +101,20 @@ void    readmsg_v4(int b_read, char *recvbuff)
             cmsg = CMSG_NXTHDR(&msg, cmsg);
         }
         stat_cnt(rrt);
-        printf("%d bytes from %s (%s): icmp_seq=%u, hlim=%d, time=%.3f ms\n",
-            b_read, _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp6->icmp6_seq, hlim, rrt);
+        if (!_g.quiet)
+            printf("%d bytes from %s (%s): icmp_seq=%u, hlim=%d, time=%.3f ms\n",
+                b_read, _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp6->icmp6_seq, hlim, rrt);
     }
     else if (_g.verbose)
     {
         stat_cnt(0);
-        printf(" %d bytes from %s (%s): type = %d, code = %d\n",
-            b_read, _g.host, _g.ip, icmp6->icmp6_type, icmp6->icmp6_code);
+        if (!_g.quiet)
+            printf(" %d bytes from %s (%s): type = %d, code = %d\n",
+                b_read, _g.host, _g.ip, icmp6->icmp6_type, icmp6->icmp6_code);
     }
 }
 
-void    readmsg_v6(int b_read, char *recvbuff)
+void    readmsg_v4(int b_read, char *recvbuff)
 {
     struct ip       *iphdr;
     struct icmp     *icmp;
@@ -135,13 +137,15 @@ void    readmsg_v6(int b_read, char *recvbuff)
         tv_sub(&tvrecv, (struct timeval *)icmp->icmp_data);
         rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
         stat_cnt(rrt);
-        printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
-            (b_read - hdrlen), _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp->icmp_seq, iphdr->ip_ttl, rrt);
+        if (!_g.quiet)
+            printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
+                (b_read - hdrlen), _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp->icmp_seq, iphdr->ip_ttl, rrt);
     }
     else if (_g.verbose)
     {
         stat_cnt(0);
-        printf(" %d bytes from %s (%s): type = %d, code = %d\n",
-            (b_read - hdrlen), _g.host, _g.ip, icmp->icmp_type, icmp->icmp_code);
+        if (!_g.quiet)
+            printf(" %d bytes from %s (%s): type = %d, code = %d\n",
+                (b_read - hdrlen), _g.host, _g.ip, icmp->icmp_type, icmp->icmp_code);
     }
 }

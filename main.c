@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/17 14:51:58 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/18 17:12:19 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,14 @@ void   ping_init(char *host)
     _g.ft_send = (ret->ai_family == AF_INET) ? send_v4 : send_v6;
     _g.ft_recv = (ret->ai_family == AF_INET) ? readmsg_v4 : readmsg_v6;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
-    _g.r_host = reverse_dns_lookup(_g.ip);
+    _g.r_host = _g.r_ns_lookup ? reverse_dns_lookup(_g.ip) : host;
     printf("PING %s (%s): %d data (%d) bytes of data\n", host, _g.ip, DATALEN, PCKSIZE(DATALEN));
     readloop();
 }
 
 int     main(int ac, char **av)
 {
-    if (ac != 2)
-    {
-        printf("usage: ping [-v] host [-h]\n");
-        exit(EXIT_SUCCESS);
-    }
+    readopt(ac, av);
     _g.msg_cnt = 0;
     _g.host = av[1];
     _g.min = 0.0000;

@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/17 14:52:23 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/18 17:17:25 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@
 # define ICMP_HDR_KEN 8
 # define DATALEN 56
 # define PCKSIZE(datalen) (DATALEN + IP_HDR_LEN + ICMP_HDR_KEN)
+# define last_arg(index, ac) (index != ac - 1)
+# define PING_FLAG_C 0
+# define PING_FLAG_I 1
+// # define FETAL(msg, arg) ({\
+//             fprintf(stderr, msg); \
+//             fprintf(stderr, arg); \
+//             exit(EXIT_FAILURE);\
+//         })
 
 struct              s_pin_g
 {
@@ -61,6 +69,9 @@ struct              s_pin_g
     void                (*ft_send)(void);
     void                (*ft_recv)(int, char *);
     
+    int                 times;
+    int                 duration;
+   
     int                 ssendlen;                 
     unsigned int        seq;
     int                 datalen;
@@ -68,23 +79,34 @@ struct              s_pin_g
     int                 pkg_siz;
     int                 time_out;
     int                 sockfd;
+    unsigned int        pkg_received;
+    unsigned int        msg_cnt;
+    pid_t               pid;
+
     char                *r_host;
     char                ip[100];
-    pid_t               pid;
-    int                 verbost;
-
     char                *host;
     char                sendbuf[BUFF_SIZE];
     char                recvbuf[BUFF_SIZE];
-
     char                ctrl_buf[BUFF_SIZE];
 
     bool                verbose;
-    unsigned int        pkg_received;
-    unsigned int        msg_cnt;
+    bool                r_ns_lookup;
+    bool                bell;
+    bool                quiet;
 };
 
 struct s_pin_g       _g;
+
+const char          *g_err_msg_fmt[] = {
+    "ping: invalid timing interval:", 
+    "ping: invalid count of packets to transmit:"
+};
+
+const char          g_flag_lookup[] = {
+    'c',
+    'i'
+};
 
 char                *lookup_host (const char *host);
 char                *reverse_dns_lookup(char *ip_addr);
@@ -99,4 +121,5 @@ void                send_v4(void);
 void                send_v6(void);
 void                readmsg_v4(int b_read, char *recvbuff);
 void                readmsg_v6(int b_read, char *recvbuff);
+void                sig_int(int signo);
 #endif
