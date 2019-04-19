@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 12:39:59 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 12:46:59 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void    readopt(int ac, char **av)
             _g.bell = true;
         else if (!strcmp(av[rcx], "-q"))
             _g.quiet = true;
-        else
+        else if (strlen(av[rcx]) > 4)
             _g.host = av[rcx];
     }
 }

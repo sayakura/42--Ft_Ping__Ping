@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 10:33:20 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 13:38:28 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void    readloop(void)
     char            recvbuff[BUFF_SIZE];
     char            ctrlbuff[BUFF_SIZE];
    
-    gettimeofday(&_g._tv_start, NULL);
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, IPPROTO_ICMP);
     _tmp = 60 * 1024;
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));
@@ -56,6 +55,7 @@ void    readloop(void)
     _g.msg.msg_iovlen = 1;
     _g.msg.msg_control = ctrlbuff;
     sig_alrm(SIGALRM);
+    gettimeofday(&_g._tv_start, NULL);
     while (1)
     {
         _g.msg.msg_namelen = _g.ssendlen;

@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 11:13:49 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 13:36:41 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,50 +70,6 @@ void    send_v6(void)
     sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
 }
 
-// void    readmsg_v6(int b_read, char *recvbuff)
-// {
-//     struct icmp6_hdr    *icmp6;
-//     struct timeval      tvrecv;
-//     struct cmsghdr      *cmsg;
-//     int                 hlim;
-//     double              rrt;
-
-//     gettimeofday(&tvrecv, NULL);
-//     icmp6 = (struct ip *)recvbuff;
-//     if (len < 8)
-//         return ;
-//     if (icmp6->icmp6_type == ICMP6_ECHO_REPLY)
-//     {
-//         if (icmp6->icmp6_id != _g.pid || len < 16)
-//             return ;
-//         tv_sub(&tvrecv, (struct timeval *)icmp6 + 1);
-//         rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
-//         hlim = -1;
-//         cmsg = CMSG_FIRSTHDR(&_g.msg);
-//         while (cmsg != NULL)
-//         {
-//              if (cmsg->cmsg_level == IPPROTO_IPV6
-//                     && cmsg->cmsg_type == IPV6_HOPLIMIT)
-//                 {
-//                      hlim = * (u_int32_t *) CMSG_DATA (cmsg);
-//                      break;
-//                 }
-//             cmsg = CMSG_NXTHDR(&msg, cmsg);
-//         }
-//         stat_cnt(rrt);
-//         if (!_g.quiet)
-//             printf("%d bytes from %s (%s): icmp_seq=%u, hlim=%d, time=%.3f ms\n",
-//                 b_read, _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp6->icmp6_seq, hlim, rrt);
-//     }
-//     else if (_g.verbose)
-//     {
-//         stat_cnt(0);
-//         if (!_g.quiet)
-//             printf(" %d bytes from %s (%s): type = %d, code = %d\n",
-//                 b_read, _g.host, _g.ip, icmp6->icmp6_type, icmp6->icmp6_code);
-//     }
-// }
-
 static void print_msg(int b_recv, struct icmp *icmp, double rrt, int ttl, bool is_echo)
 {
     char    bell_char;
@@ -139,6 +95,50 @@ static void print_msg(int b_recv, struct icmp *icmp, double rrt, int ttl, bool i
     }
     if (!_g.times)
         sig_int(SIGINT);
+}
+
+void    _readmsg_v6(int b_read, char *recvbuff)
+{
+    struct icmp6_hdr    *icmp6;
+    struct timeval      tvrecv;
+    struct cmsghdr      *cmsg;
+    int                 hlim;
+    double              rrt;
+
+    gettimeofday(&tvrecv, NULL);
+    icmp6 = (struct ip *)recvbuff;
+    if (len < 8)
+        return ;
+    if (icmp6->icmp6_type == ICMP6_ECHO_REPLY)
+    {
+        if (icmp6->icmp6_id != _g.pid || len < 16)
+            return ;
+        tv_sub(&tvrecv, (struct timeval *)icmp6 + 1);
+        rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
+        hlim = -1;
+        cmsg = CMSG_FIRSTHDR(&_g.msg);
+        while (cmsg != NULL)
+        {
+             if (cmsg->cmsg_level == IPPROTO_IPV6
+                    && cmsg->cmsg_type == IPV6_HOPLIMIT)
+                {
+                    hlim = * (u_int32_t *) CMSG_DATA (cmsg);
+                    break;
+                }
+            cmsg = CMSG_NXTHDR(&msg, cmsg);
+        }
+        stat_cnt(rrt);
+        if (!_g.quiet)
+            printf("%d bytes from %s (%s): icmp_seq=%u, hlim=%d, time=%.3f ms\n",
+                b_read, _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp6->icmp6_seq, hlim, rrt);
+    }
+    else if (_g.verbose)
+    {
+        stat_cnt(0);
+        if (!_g.quiet)
+            printf(" %d bytes from %s (%s): type = %d, code = %d\n",
+                b_read, _g.host, _g.ip, icmp6->icmp6_type, icmp6->icmp6_code);
+    }
 }
 
 void    readmsg_v4(int b_read, char *recvbuff)
@@ -192,16 +192,8 @@ void    readmsg_v6(int b_read, char *recvbuff)
             return ;
         tv_sub(&tvrecv, (struct timeval *)icmp->icmp_data);
         rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
-        stat_cnt(rrt);
-        if (!_g.quiet)
-            printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
-                (b_read - hdrlen), _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp->icmp_seq, iphdr->ip_ttl, rrt);
+        print_msg(b_read - hdrlen, icmp, rrt, iphdr->ip_ttl, true);
     }
     else if (_g.verbose)
-    {
-        stat_cnt(0);
-        if (!_g.quiet)
-            printf(" %d bytes from %s (%s): type = %d, code = %d\n",
-                (b_read - hdrlen), _g.host, _g.ip, icmp->icmp_type, icmp->icmp_code);
-    }
+        print_msg(b_read - hdrlen, icmp, 0, 0, false);
 }
