@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/18 21:36:11 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 09:47:21 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,43 @@ void    send_v6(void)
 // }
 
 void    readmsg_v4(int b_read, char *recvbuff)
+{
+    struct ip       *iphdr;
+    struct icmp     *icmp;
+    struct timeval  tvrecv;
+    int             hdrlen;
+    double          rrt;
+
+    gettimeofday(&tvrecv, NULL);
+    iphdr = (struct ip *)recvbuff;
+    hdrlen = iphdr->ip_hl << 2;
+    if (iphdr->ip_p != IPPROTO_ICMP)
+        return ;
+    icmp = (struct icmp *)(recvbuff + hdrlen);
+    if ((b_read - hdrlen) < 8)
+        return ;
+    if (icmp->icmp_type == ICMP_ECHOREPLY)
+    {
+        if (icmp->icmp_id != _g.pid || (b_read - hdrlen) < 16)
+            return ;
+        tv_sub(&tvrecv, (struct timeval *)icmp->icmp_data);
+        rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
+        stat_cnt(rrt);
+        if (!_g.quiet)
+            printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
+                (b_read - hdrlen), _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp->icmp_seq, iphdr->ip_ttl, rrt);
+    }
+    else if (_g.verbose)
+    {
+        stat_cnt(0);
+        if (!_g.quiet)
+            printf(" %d bytes from %s (%s): type = %d, code = %d\n",
+                (b_read - hdrlen), _g.host, _g.ip, icmp->icmp_type, icmp->icmp_code);
+    }
+}
+
+
+void    readmsg_v6(int b_read, char *recvbuff)
 {
     struct ip       *iphdr;
     struct icmp     *icmp;
