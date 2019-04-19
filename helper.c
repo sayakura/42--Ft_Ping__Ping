@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 09:48:58 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 09:51:34 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void    stat_cnt(double rrt)
     _g.pkg_received++;
     if (_g.bell)
         write(1, &bell_char, 1);
-    if (rrt != 0)
+    if (rrt != -1)
     {
         _g.total += rrt;
         if (rrt < _g.min || _g.min == 0.0000)

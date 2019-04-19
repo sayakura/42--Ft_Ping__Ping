@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 09:47:21 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 09:51:30 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void    readmsg_v4(int b_read, char *recvbuff)
     }
     else if (_g.verbose)
     {
-        stat_cnt(0);
+        stat_cnt(-1);
         if (!_g.quiet)
             printf(" %d bytes from %s (%s): type = %d, code = %d\n",
                 (b_read - hdrlen), _g.host, _g.ip, icmp->icmp_type, icmp->icmp_code);
