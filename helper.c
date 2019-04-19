@@ -6,12 +6,21 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/18 17:20:05 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 09:48:58 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ping.h"
 
+const char   *g_err_msg_fmt[] = {
+    "ping: invalid timing interval:", 
+    "ping: invalid count of packets to transmit:"
+};
+
+const char   g_flag_lookup[] = {
+    'c',
+    'i'
+};
 void    stat_cnt(double rrt)
 {
     char    bell_char;

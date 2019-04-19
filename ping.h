@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/18 21:36:53 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 09:49:07 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,6 @@ struct              s_pin_g
 };
 
 struct s_pin_g       _g;
-
-const char          *g_err_msg_fmt[] = {
-    "ping: invalid timing interval:", 
-    "ping: invalid count of packets to transmit:"
-};
-
-const char          g_flag_lookup[] = {
-    'c',
-    'i'
-};
 
 char                *lookup_host (const char *host);
 char                *reverse_dns_lookup(char *ip_addr);
