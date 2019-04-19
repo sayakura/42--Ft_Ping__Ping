@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 09:56:32 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 09:57:36 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char* reverse_dns_lookup(char *ip_addr)
 
 void    print_usage(void)
 {
-    printf("ping: option requires an argument -- h\n");
     printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");
     exit(EXIT_SUCCESS);
 }
@@ -112,7 +111,10 @@ void    readopt(int ac, char **av)
         if (!strcmp(av[rcx], "-v"))
             _g.verbose = true;
         else if (!strcmp(av[rcx], "-h"))
-            print_usage();
+        {
+            printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");
+            exit(EXIT_SUCCESS);
+        }
         bonus_flag(rcx, ac, av);
         // {
         //     if (!last_arg(rcx, ac))
