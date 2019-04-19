@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 11:12:24 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 12:25:41 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ char* reverse_dns_lookup(char *ip_addr)
     return ret_buf; 
 }
 
-void    print_usage(void)
-{
-    printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");
-    exit(EXIT_SUCCESS);
-}
-
 void    arg_check(int rcx, int ac, char **av, int flag)
 {
     if (!last_arg(rcx, ac))
@@ -82,20 +76,6 @@ void    arg_check(int rcx, int ac, char **av, int flag)
     }
 }
 
-void    bonus_flag(int rcx, int ac, char **av)
-{
-    if (!strcmp(av[rcx], "-c"))
-        arg_check(rcx, ac, av, PING_FLAG_C);
-    else if (!strcmp(av[rcx], "-i"))
-        arg_check(rcx, ac, av, PING_FLAG_I);
-    else if (!strcmp(av[rcx], "-n"))
-        _g.r_ns_lookup = false;
-    else if (!strcmp(av[rcx], "-a"))
-        _g.bell = true;
-    else if (!strcmp(av[rcx], "-q"))
-        _g.quiet = true;
-}
-
 void    readopt(int ac, char **av)
 {
     int     rcx;
@@ -110,16 +90,17 @@ void    readopt(int ac, char **av)
             printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");
             exit(EXIT_SUCCESS);
         }
-        bonus_flag(rcx, ac, av);
-        // {
-        //     if (!last_arg(rcx, ac))
-        //     {
-        //         fprintf(stderr, "ping: invalid increment size: %s",\
-        //         av[rcx + 1]);   
-        //         exit(EXIT_FAILURE);
-        //     }
-        //     else
-                
-        // }
+        else if (!strcmp(av[rcx], "-c"))
+            arg_check(rcx, ac, av, PING_FLAG_C);
+        else if (!strcmp(av[rcx], "-i"))
+            arg_check(rcx, ac, av, PING_FLAG_I);
+        else if (!strcmp(av[rcx], "-n"))
+            _g.r_ns_lookup = false;
+        else if (!strcmp(av[rcx], "-a"))
+            _g.bell = true;
+        else if (!strcmp(av[rcx], "-q"))
+            _g.quiet = true;
+        else
+            _g.host = av[rcx];
     }
 }
