@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 10:16:43 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 10:18:18 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void    sig_alrm(int signo)
 {
-    _g.ft_send();
-    if (--_g.times)
+    if (_g.times--)
+    {
+        _g.ft_send();
 	    alarm(_g.duration);
+    }
     else
         sig_int(SIGINT);
 	return;	
