@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 10:31:16 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 11:10:31 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,22 @@ void    send_v6(void)
 //     }
 // }
 
+static void print_msg(int b_recv, struct icmp *icmp, double rrt, int ttl, bool is_echo)
+{
+    stat_cnt(is_echo ? rrt : NOT_ECHO);
+    if (!_g.quiet)
+    {
+        if (is_echo)
+            printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
+                    b_recv, _g.r_host ? _g.r_host : _g.host, _g.ip, icmp->icmp_seq, ttl, rrt);
+        else
+            printf(" %d bytes from %s (%s): type = %d, code = %d\n",
+                b_recv, _g.host, _g.ip, icmp->icmp_seq, icmp->icmp_code);
+    }
+    if (!_g.times)
+        sig_int(SIGINT);
+}
+
 void    readmsg_v4(int b_read, char *recvbuff)
 {
     struct ip       *iphdr;
@@ -136,22 +152,10 @@ void    readmsg_v4(int b_read, char *recvbuff)
             return ;
         tv_sub(&tvrecv, (struct timeval *)icmp->icmp_data);
         rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
-        stat_cnt(rrt);
-        if (!_g.quiet)
-            printf("%d bytes from %s (%s): icmp_seq=%u, ttl=%d, time=%.3f ms\n",
-                (b_read - hdrlen), _g.r_host ? _g.r_host : _g.host, _g.ip,  icmp->icmp_seq, iphdr->ip_ttl, rrt);
-        if (!_g.times)
-            sig_int(SIGINT);
+        print_msg(b_read - hdrlen, icmp, rrt, iphdr->ip_ttl, true);
     }
     else if (_g.verbose)
-    {
-        stat_cnt(-1);
-        if (!_g.quiet)
-            printf(" %d bytes from %s (%s): type = %d, code = %d\n",
-                (b_read - hdrlen), _g.host, _g.ip, icmp->icmp_type, icmp->icmp_code);
-        if (!_g.times)
-            sig_int(SIGINT);
-    }
+        print_msg(b_read - hdrlen, icmp, 0, 0, false);
 }
 
 

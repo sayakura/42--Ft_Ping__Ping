@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 09:59:09 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 11:08:08 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define last_arg(index, ac) (index == ac - 1)
 # define PING_FLAG_C 0
 # define PING_FLAG_I 1
+# define NOT_ECHO -1
 // # define FETAL(msg, arg) ({\
 //             fprintf(stderr, msg); \
 //             fprintf(stderr, arg); \
