@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 09:51:34 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/19 09:56:32 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,16 +112,17 @@ void    readopt(int ac, char **av)
         if (!strcmp(av[rcx], "-v"))
             _g.verbose = true;
         else if (!strcmp(av[rcx], "-h"))
-        {
-            if (!last_arg(rcx, ac))
-            {
-                fprintf(stderr, "ping: invalid increment size: %s",\
-                av[rcx + 1]);   
-                exit(EXIT_FAILURE);
-            }
-            else
-                print_usage();
-        }
+            print_usage();
         bonus_flag(rcx, ac, av);
+        // {
+        //     if (!last_arg(rcx, ac))
+        //     {
+        //         fprintf(stderr, "ping: invalid increment size: %s",\
+        //         av[rcx + 1]);   
+        //         exit(EXIT_FAILURE);
+        //     }
+        //     else
+                
+        // }
     }
 }
