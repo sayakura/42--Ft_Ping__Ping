@@ -13,7 +13,7 @@
 #include "ping.h"
 
 
-void     sig_int(int signo)
+void                sig_int(int signo)
 {
     int         diff;
     double      loss;
@@ -31,9 +31,9 @@ void     sig_int(int signo)
     exit(EXIT_SUCCESS);
 }
 
-struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int family, int socktype)
+struct addrinfo     *host_to_addrinfo(const char *host, const char *serv, int family, int socktype)
 {
-	struct addrinfo	hints;
+	struct addrinfo hints;
     struct addrinfo *res;
 
 	bzero(&hints, sizeof(struct addrinfo));
@@ -48,7 +48,7 @@ struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int fam
 	return(res);
 }
 
-void   ping_init(void)
+void                ping_init(void)
 {
     struct addrinfo     *ret;
     void                *ptr;
@@ -78,7 +78,7 @@ void   ping_init(void)
     printf("PING %s (%s): %d data (%d) bytes of data\n", host, _g.ip, DATALEN, PCKSIZE(DATALEN));
 }
 
-void    env_init(void)
+void                env_init(void)
 {
     _g.msg_cnt = 0;
     _g.min = 0.0000;
@@ -91,7 +91,7 @@ void    env_init(void)
     signal(SIGINT, sig_int);
 }
 
-int     main(int ac, char **av)
+int                 main(int ac, char **av)
 {
     env_init();
     readopt(ac, av);

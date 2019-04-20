@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 11:08:08 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 15:17:16 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,18 @@
 # define PING_FLAG_C 0
 # define PING_FLAG_I 1
 # define NOT_ECHO -1
+
+typedef struct      s_info
+{
+    char            ver;
+    int             seq;
+    int             b_recv;
+    int             type;
+    int             code;
+    int             cnt;
+    double          rrt;
+}                   t_info;
+
 // # define FETAL(msg, arg) ({\
 //             fprintf(stderr, msg); \
 //             fprintf(stderr, arg); \
@@ -115,4 +127,5 @@ void                readmsg_v4(int b_read, char *recvbuff);
 void                readmsg_v6(int b_read, char *recvbuff);
 void                sig_int(int signo);
 void                readopt(int ac, char **av);
+uint16_t            in_cksum (uint16_t * addr, int len);
 #endif
