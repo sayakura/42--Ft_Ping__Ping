@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 15:17:03 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 15:53:25 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,18 @@ void    arg_check(int rcx, int ac, char **av, int flag)
         printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");
         exit(EXIT_SUCCESS);
     }
+}
+
+char    *readhost(int rcx, int ac, char **av)
+{
+    static char     *host;
+
+    host = av[rcx];
+    if (!strcmp(host, "0") || !strcmp(host, "localhost"))
+    {
+        host 
+    }
+
 }
 
 void    readopt(int ac, char **av)
