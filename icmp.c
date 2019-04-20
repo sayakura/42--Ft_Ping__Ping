@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 15:40:52 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 15:41:28 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ void    readmsg_v4(int b_read, char *recvbuff)
             .cnt = iphdr->ip_ttl, .rrt = rrt}, true);
     }
     else if (_g.verbose)
-        _print_msg((t_info){.ver = AF_INET, .b_recv = b_read - hdrlen, .type = icmp->cmp_type, 
+        _print_msg((t_info){.ver = AF_INET, .b_recv = b_read - hdrlen, .type = icmp->icmp_type, 
         .code = icmp->icmp_type}, false);
 }
 
