@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 15:17:04 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 15:40:52 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void _print_msg(t_info info, bool is_echo)
         }
         else
             printf(" %d bytes from %s: type = %d, code = %d\n",
-                info.b_recv, _g.ip, info.icmp_type, info.icmp_code);
+                info.b_recv, _g.ip, info.type, info.code);
         if (_g.bell)
             write(1, &bell_char, 1);
     }
@@ -130,7 +130,7 @@ void    readmsg_v6(int b_read, char *recvbuff)
     double              rrt;
 
     gettimeofday(&tvrecv, NULL);
-    icmp6 = (struct ip *)recvbuff;
+    icmp6 = (struct icmp6_hdr *)recvbuff;
     if (b_read < 8)
         return ;
     if (icmp6->icmp6_type == ICMP6_ECHO_REPLY)
@@ -175,8 +175,8 @@ void    readmsg_v4(int b_read, char *recvbuff)
             .cnt = iphdr->ip_ttl, .rrt = rrt}, true);
     }
     else if (_g.verbose)
-        _print_msg((t_info){.ver = AF_INET, .b_recv = b_read - hdrlen, .type = icmp.icmp_type, 
-        .code = icmp.icmp_type}, false);
+        _print_msg((t_info){.ver = AF_INET, .b_recv = b_read - hdrlen, .type = icmp->cmp_type, 
+        .code = icmp->icmp_type}, false);
 }
 
 
