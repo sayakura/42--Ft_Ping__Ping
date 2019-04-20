@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 15:42:31 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 15:42:53 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void                ping_init(void)
     _g.ft_recv = (ret->ai_family == AF_INET) ? readmsg_v4 : readmsg_v6;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
     _g.r_host = _g.r_ns_lookup ? reverse_dns_lookup(_g.ip) : _g.host;
-    printf("PING %s (%s): %d data (%d) bytes of data\n", host, _g.ip, DATALEN, PCKSIZE(DATALEN));
+    printf("PING %s (%s): %d data (%d) bytes of data\n", _g.host, _g.ip, DATALEN, PCKSIZE(DATALEN));
 }
 
 void                env_init(void)
