@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 13:43:37 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 15:42:31 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void                ping_init(void)
     void                *ptr;
     static char         addrstr[100];
 
-    ret = host_to_addrinfo(_g.host, NULL, AF_INET_6, SOCK_STREAM);
+    ret = host_to_addrinfo(_g.host, NULL, AF_INET, SOCK_STREAM);
     if (!ret)
     {
         fprintf(stderr, "ping: cannot resolve %s: Unknown host", _g.host);
