@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 16:57:44 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 22:15:59 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,7 @@ void                ping_init(void)
     if (ret->ai_family == AF_INET)
         ptr = &((struct sockaddr_in *) ret->ai_addr)->sin_addr;
     else
-    {
-        printf("ipv6 !\n");
-        exit(EXIT_FAILURE);
         ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
-    }
     _g.ft_send = (ret->ai_family == AF_INET) ? send_v4 : send_v6;
     _g.ft_recv = (ret->ai_family == AF_INET) ? readmsg_v4 : readmsg_v6;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);

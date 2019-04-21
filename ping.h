@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 22:10:42 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 22:13:30 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ struct              s_pin_g
     char                ip[100];
     char                *host;
     char                sendbuf[BUFF_SIZE];
-    char                recvbuf[BUFF_SIZE];
-    char                ctrl_buf[BUFF_SIZE];
 
     bool                verbose;
     bool                r_ns_lookup;
