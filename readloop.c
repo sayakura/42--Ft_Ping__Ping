@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:14:55 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:15:31 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void    readloop(void)
     if (_g.protocol == IPPROTO_ICMPV6)
 	{
         status = setsockopt(_g.sockfd , IPPROTO_IPV6, IPV6_HOPLIMIT, &on, sizeof(on));
-        printf("sect: %d\n", status);
+        perror("setsockopt");
     }
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));
     _g.iov.iov_base = recvbuff;
