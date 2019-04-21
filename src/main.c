@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:29:46 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:30:20 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,13 @@ struct addrinfo		*host_to_addrinfo(char *host,\
 {
 	struct addrinfo hints;
 	struct addrinfo *res;
-	int				status;
 
 	bzero(&hints, sizeof(struct addrinfo));
 	hints.ai_flags = AI_CANONNAME;
 	hints.ai_family = family;
 	hints.ai_socktype = socktype;
-	if ((status = getaddrinfo(host, serv, &hints, &res)))
+	if (getaddrinfo(host, serv, &hints, &res))
 	{
-		printf("%d\n", status);
 		fprintf(stderr, "ping: %s: Name or service not known\n", host);
 		exit(EXIT_FAILURE);
 	}
