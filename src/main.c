@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:34:31 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:35:09 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ struct addrinfo		*host_to_addrinfo(char *host,\
 		exit(EXIT_FAILURE);
 	}
 	printf("status: %d\n", status);
-	printf("host: %d\n", gl.host);
+	printf("host: %s\n", gl.host);
 	return (res);
 }
 
