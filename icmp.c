@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 01:11:55 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 02:19:07 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void        send_v6(void)
     icmp->icmp6_code = 0;
     icmp->icmp6_id = _g.pid;
     icmp->icmp6_seq = _g.msg_cnt++;
-    memset((icmp + 1), 0x77, DATALEN);
+    memset((icmp + 1), 0xa5 , DATALEN);
     gettimeofday((struct timeval *)(icmp + 1), NULL);
     len = 8 + DATALEN;
     sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
@@ -107,7 +107,6 @@ void    readmsg_v6(int b_read, char *recvbuff)
         return ;
     if (icmp6->icmp6_type == ICMP6_ECHO_REPLY)
     {
-        printf("ercho!\n");
         if (icmp6->icmp6_id != _g.pid || b_read < 16)
             return ;
         printf("yesah!\n");

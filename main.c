@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 22:46:59 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 02:20:04 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void                ping_init(void)
         ptr = &((struct sockaddr_in6 *) ret->ai_addr)->sin6_addr;
     _g.ft_send = (ret->ai_family == AF_INET) ? send_v4 : send_v6;
     _g.ft_recv = (ret->ai_family == AF_INET) ? readmsg_v4 : readmsg_v6;
+    _g.protocol = (ret->ai_family == AF_INET) ? IPPROTO_ICMP : IPPROTO_ICMPV6;
     inet_ntop(ret->ai_family, ptr, _g.ip, 100);
     _g.r_host = _g.r_ns_lookup && ret->ai_family == AF_INET ? reverse_dns_lookup(_g.ip) : _g.host;
     printf("PING %s (%s): %d data (%d) bytes of data\n", _g.host, _g.ip, DATALEN, PCKSIZE(DATALEN));

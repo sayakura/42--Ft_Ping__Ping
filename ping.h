@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 22:46:58 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 02:19:00 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ struct              s_pin_g
     void                (*ft_send)(void);
     void                (*ft_recv)(int, char *);
     
+    int                 protocol;
     int                 times;
     int                 duration;
    
