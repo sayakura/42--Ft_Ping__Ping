@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/19 13:38:28 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 22:22:04 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void    readloop(void)
     char            ctrlbuff[BUFF_SIZE];
    
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, IPPROTO_ICMP);
+    printf("sock: %d\n", _g.sockfd);
     _tmp = 60 * 1024;
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));
     _g.iov.iov_base = recvbuff;
