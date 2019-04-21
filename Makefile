@@ -6,7 +6,7 @@
 #    By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/21 05:24:56 by qpeng             #+#    #+#              #
-#    Updated: 2019/04/21 05:41:31 by qpeng            ###   ########.fr        #
+#    Updated: 2019/04/21 05:43:06 by qpeng            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJ = $(FILES:.c=.o)
 all:
 	gcc -Iinclude $(FLAGS) $(SRCS)
 	gcc $(OBJ) -o $(NAME)
-clean: OBJ
+clean: $(OBJ)
 	rm $(OBJ)
 fclean: clean
 	rm $(NAME)
