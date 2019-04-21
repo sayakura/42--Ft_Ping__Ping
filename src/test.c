@@ -22,6 +22,7 @@ struct addrinfo		*host_to_addrinfo(char *host,\
 		exit(EXIT_FAILURE);
 	}
 	printf("status: %d\n", status);
+	printf("host: %s\n", host);
 	return (res);
 }
 
