@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 22:18:45 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 22:19:22 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void        send_v6(void)
     gettimeofday((struct timeval *)(icmp + 1), NULL);
     len = 8 + DATALEN;
     status = sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
-    printf("sendto: %d\n", status);
+    perror("sendto");
 }
 
 // static void print_msg(int b_recv, struct icmp *icmp, double rrt, int ttl, bool is_echo)
