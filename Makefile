@@ -6,7 +6,7 @@
 #    By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/21 05:24:56 by qpeng             #+#    #+#              #
-#    Updated: 2019/04/21 05:30:07 by qpeng            ###   ########.fr        #
+#    Updated: 2019/04/21 05:31:23 by qpeng            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC = src/helper.c\
 OBJ = $(SRC:.c=.o)
 
 all:
-	gcc $(FLAGS) $(SRC)
+	gcc -Iinclude $(FLAGS) $(SRC)
 	gcc $(OBJ) -o $(NAME)
 clean:
 	rm $(OBJ)
