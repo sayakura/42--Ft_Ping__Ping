@@ -29,5 +29,7 @@ int main()
     struct addrinfo		*ret;
 
 	ret = host_to_addrinfo("216.58.195.238", NULL, AF_INET, SOCK_STREAM);
+	printf("%d\n", ret->ai_family);
+	printf("%s\n", ret->ai_canonname);
     return 0;
 }
