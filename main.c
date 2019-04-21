@@ -6,13 +6,13 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:47:31 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 05:07:56 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ping.h"
 
-char			*reverse_dns_lookup(char *ip_addr)
+char				*reverse_dns_lookup(char *ip_addr)
 {
 	struct sockaddr_in	temp_addr;
 	socklen_t			len;
@@ -52,38 +52,38 @@ void				ping_init(void)
 	struct addrinfo		*ret;
 	void				*ptr;
 
-	ret = host_to_addrinfo(_g.host, NULL, AF_INET6, SOCK_STREAM);
+	ret = host_to_addrinfo(gl.host, NULL, AF_INET, SOCK_STREAM);
 	if (!ret)
 	{
-		fprintf(stderr, "ping: cannot resolve %s: Unknown host", _g.host);
+		fprintf(stderr, "ping: cannot resolve %s: Unknown host", gl.host);
 		exit(EXIT_FAILURE);
 	}
 	setuid(getuid());
-	_g.ssend = ret->ai_addr;
-	_g.ssendlen = ret->ai_addrlen;
+	gl.ssend = ret->ai_addr;
+	gl.ssendlen = ret->ai_addrlen;
 	if (ret->ai_family == AF_INET)
 		ptr = &((struct sockaddr_in *)ret->ai_addr)->sin_addr;
 	else
 		ptr = &((struct sockaddr_in6 *)ret->ai_addr)->sin6_addr;
-	_g.ft_send = (ret->ai_family == AF_INET) ? send_v4 : send_v6;
-	_g.ft_recv = (ret->ai_family == AF_INET) ? readmsg_v4 : readmsg_v6;
-	_g.protocol = (ret->ai_family == AF_INET) ? IPPROTO_ICMP : IPPROTO_ICMPV6;
-	inet_ntop(ret->ai_family, ptr, _g.ip, 100);
-	_g.r_host = _g.r_ns_lookup && ret->ai_family ==\
-								AF_INET ? reverse_dns_lookup(_g.ip) : _g.host;
+	gl.ft_send = (ret->ai_family == AF_INET) ? send_v4 : send_v6;
+	gl.ft_recv = (ret->ai_family == AF_INET) ? readmsg_v4 : readmsg_v6;
+	gl.protocol = (ret->ai_family == AF_INET) ? IPPROTO_ICMP : IPPROTO_ICMPV6;
+	inet_ntop(ret->ai_family, ptr, gl.ip, 100);
+	gl.r_host = gl.r_ns_lookup && ret->ai_family ==\
+								AF_INET ? reverse_dns_lookup(gl.ip) : gl.host;
 	printf("PING %s (%s): %d data (%d) bytes of data\n",\
-									_g.host, _g.ip, DATALEN, PCKSIZE(DATALEN));
+									gl.host, gl.ip, DATALEN, PCKSIZE(DATALEN));
 }
 
 void				env_init(void)
 {
-	_g.msg_cnt = 0;
-	_g.min = 0.0000;
-	_g.max = 0.0000;
-	_g.times = INT32_MAX;
-	_g.duration = 1;
-	_g.r_ns_lookup = true;
-	_g.pid = getpid() & 0xffff;
+	gl.msg_cnt = 0;
+	gl.min = 0.0000;
+	gl.max = 0.0000;
+	gl.times = INT32_MAX;
+	gl.duration = 1;
+	gl.r_ns_lookup = true;
+	gl.pid = getpid() & 0xffff;
 	signal(SIGALRM, sig_alrm);
 	signal(SIGINT, sig_int);
 }

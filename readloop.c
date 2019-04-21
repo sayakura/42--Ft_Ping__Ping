@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:47:59 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:59:54 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	sig_alrm(int signo)
 {
 	(void)(signo);
-	if (_g.times--)
-		alarm(_g.duration);
+	if (gl.times--)
+		alarm(gl.duration);
 	else
 		sig_int(SIGINT);
-	_g.ft_send();
+	gl.ft_send();
 	return ;
 }
 
@@ -30,17 +30,17 @@ void	sig_int(int signo)
 	double		rrt;
 
 	(void)(signo);
-	gettimeofday(&_g._tv_end, NULL);
-	tv_sub(&_g._tv_end, &_g._tv_start);
-	rrt = _g._tv_end.tv_sec * 1000.0 + _g._tv_end.tv_usec / 1000.0;
-	diff = _g.msg_cnt - _g.pkg_received;
-	loss = (double)diff / _g.msg_cnt * 100;
-	printf("\n--- %s ping statistics ---\n", _g.host);
+	gettimeofday(&gl.tv_end, NULL);
+	tv_sub(&gl.tv_end, &gl.tv_start);
+	rrt = gl.tv_end.tv_sec * 1000.0 + gl.tv_end.tv_usec / 1000.0;
+	diff = gl.msg_cnt - gl.pkg_received;
+	loss = (double)diff / gl.msg_cnt * 100;
+	printf("\n--- %s ping statistics ---\n", gl.host);
 	printf("%d packets transmitted, %d received, %.0f%% packet loss\
 													time %.0f ms\n",
-	_g.msg_cnt, _g.pkg_received, loss, rrt);
+	gl.msg_cnt, gl.pkg_received, loss, rrt);
 	printf("rtt min/avg/max= /%.3f/%.3f/%.3f ms\n",\
-						_g.min, _g.total / _g.pkg_received, _g.max);
+						gl.min, gl.total / gl.pkg_received, gl.max);
 	exit(EXIT_SUCCESS);
 }
 
@@ -61,11 +61,11 @@ void	creat_sock(void)
 
 	on = 1;
 	size = 60 * 1024;
-	_g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, _g.protocol);
-	if (_g.protocol == IPPROTO_ICMPV6)
-		setsockopt(_g.sockfd, IPPROTO_IPV6,\
+	gl.sockfd = socket(gl.ssend->sa_family, SOCK_RAW, gl.protocol);
+	if (gl.protocol == IPPROTO_ICMPV6)
+		setsockopt(gl.sockfd, IPPROTO_IPV6,\
 							IPV6_RECVHOPLIMIT, &on, sizeof(on));
-	setsockopt(_g.sockfd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
+	setsockopt(gl.sockfd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
 }
 
 void	readloop(void)
@@ -75,22 +75,22 @@ void	readloop(void)
 	char		ctrlbuff[BUFF_SIZE];
 
 	creat_sock();
-	_g.iov.iov_base = recvbuff;
-	_g.iov.iov_len = sizeof(recvbuff);
-	_g.msg.msg_name = _g.srecv;
-	_g.msg.msg_iov = &(_g.iov);
-	_g.msg.msg_iovlen = 1;
-	_g.msg.msg_control = ctrlbuff;
+	gl.iov.iov_base = recvbuff;
+	gl.iov.iov_len = sizeof(recvbuff);
+	gl.msg.msg_name = gl.srecv;
+	gl.msg.msg_iov = &(gl.iov);
+	gl.msg.msg_iovlen = 1;
+	gl.msg.msg_control = ctrlbuff;
 	sig_alrm(SIGALRM);
-	gettimeofday(&_g._tv_start, NULL);
+	gettimeofday(&gl.tv_start, NULL);
 	while (1)
 	{
-		_g.msg.msg_namelen = _g.ssendlen;
-		_g.msg.msg_controllen = sizeof(ctrlbuff);
-		b_recv = recvmsg(_g.sockfd, &(_g.msg), 0);
+		gl.msg.msg_namelen = gl.ssendlen;
+		gl.msg.msg_controllen = sizeof(ctrlbuff);
+		b_recv = recvmsg(gl.sockfd, &(gl.msg), 0);
 		if (b_recv < 0)
 			FETAL("Recvmsg Error.");
 		else
-			_g.ft_recv(b_recv, recvbuff);
+			gl.ft_recv(b_recv, recvbuff);
 	}
 }

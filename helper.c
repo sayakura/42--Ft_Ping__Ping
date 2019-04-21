@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:44:54 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 05:06:36 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,22 @@ uint16_t		in_cksum(uint16_t *addr, int len)
 
 void			stat_cnt(double rrt)
 {
-	_g.pkg_received++;
+	gl.pkg_received++;
 	if (rrt != NOT_ECHO)
 	{
-		_g.total += rrt;
-		if (rrt < _g.min || _g.min == 0.0000)
-			_g.min = rrt;
-		if (rrt > _g.max)
-			_g.max = rrt;
+		gl.total += rrt;
+		if (rrt < gl.min || gl.min == 0.0000)
+			gl.min = rrt;
+		if (rrt > gl.max)
+			gl.max = rrt;
 	}
 }
 
-void		get_hlim_val(int *hlim)
+void			get_hlim_val(int *hlim)
 {
 	struct cmsghdr	*cmsg;
 
-	cmsg = CMSG_FIRSTHDR(&_g.msg);
+	cmsg = CMSG_FIRSTHDR(&gl.msg);
 	while (cmsg != NULL)
 	{
 		if (cmsg->cmsg_level == IPPROTO_IPV6
@@ -71,7 +71,7 @@ void		get_hlim_val(int *hlim)
 			*hlim = *(u_int32_t *)CMSG_DATA(cmsg);
 			break ;
 		}
-		cmsg = CMSG_NXTHDR(&_g.msg, cmsg);
+		cmsg = CMSG_NXTHDR(&gl.msg, cmsg);
 	}
 }
 
@@ -82,9 +82,9 @@ void			arg_check(int rcx, int ac, char **av, int flag)
 		if (atoi(av[rcx + 1]) != 0)
 		{
 			if (flag == PING_FLAG_C)
-				_g.times = atoi(av[rcx + 1]);
+				gl.times = atoi(av[rcx + 1]);
 			else if (flag == PING_FLAG_I)
-				_g.duration = atoi(av[rcx + 1]);
+				gl.duration = atoi(av[rcx + 1]);
 		}
 		else
 		{
@@ -108,7 +108,7 @@ void			readopt(int ac, char **av)
 	while (++rcx < ac)
 	{
 		if (!strcmp(av[rcx], "-v"))
-			_g.verbose = true;
+			gl.verbose = true;
 		else if (!strcmp(av[rcx], "-h"))
 			PRINT_USAGE;
 		else if (!strcmp(av[rcx], "-c"))
@@ -116,12 +116,12 @@ void			readopt(int ac, char **av)
 		else if (!strcmp(av[rcx], "-i"))
 			arg_check(rcx, ac, av, PING_FLAG_I);
 		else if (!strcmp(av[rcx], "-n"))
-			_g.r_ns_lookup = false;
+			gl.r_ns_lookup = false;
 		else if (!strcmp(av[rcx], "-a"))
-			_g.bell = true;
+			gl.bell = true;
 		else if (!strcmp(av[rcx], "-q"))
-			_g.quiet = true;
+			gl.quiet = true;
 		else if ((strcmp(av[rcx - 1], "-c") && strcmp(av[rcx - 1], "-i")))
-			_g.host = strcmp(av[rcx], "0") == 0 ? "localhost" : av[rcx];
+			gl.host = strcmp(av[rcx], "0") == 0 ? "localhost" : av[rcx];
 	}
 }
