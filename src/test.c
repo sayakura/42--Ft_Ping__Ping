@@ -2,7 +2,9 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
-
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 struct addrinfo		*host_to_addrinfo(const char *host,\
 						const char *serv, int family, int socktype)
