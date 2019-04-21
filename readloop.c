@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 03:22:08 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 03:23:06 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void    readloop(void)
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, _g.protocol);
     _tmp = 60 * 1024;
     if (_g.protocol == AF_INET6)
-	    setsockopt(_g.sockfd , IPPROTO_IPV6, IPV6_RECVHOPLIMIT, &on, sizeof(on));
+	    setsockopt(_g.sockfd , IPPROTO_IPV6, IPV6_HOPLIMIT, &on, sizeof(on));
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));
     _g.iov.iov_base = recvbuff;
     _g.iov.iov_len = sizeof(recvbuff);
