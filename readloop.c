@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:28:41 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:44:31 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	creat_sock(void)
 	size = 60 * 1024;
 	_g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, _g.protocol);
 	if (_g.protocol == IPPROTO_ICMPV6)
-		status = setsockopt(_g.sockfd, IPPROTO_IPV6,\
-		IPV6_RECVHOPLIMIT, &on, sizeof(on));
+		setsockopt(_g.sockfd, IPPROTO_IPV6,\
+							IPV6_RECVHOPLIMIT, &on, sizeof(on));
 	setsockopt(_g.sockfd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
 }
 
