@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:47:20 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:49:00 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static void	print_msg(t_info info, bool is_echo)
 	{
 		if (is_echo)
 			if (_g.r_ns_lookup)
-				printf("%d bytes from %s (%s): icmp_seq=%u, %s=%d, time=%.3f\
-					ms\n", info.b_recv, _g.r_host ? _g.r_host : _g.host,\
+				printf("%d bytes from %s (%s): icmp_seq=%u, %s=%d, time=%.3f ms\
+					\n", info.b_recv, _g.r_host ? _g.r_host : _g.host,\
 					_g.ip, info.seq, info.ver == AF_INET ? "ttl" : "hlim",\
 					info.cnt, info.rrt);
 			else
