@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:44:31 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:47:59 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	sig_alrm(int signo)
 {
+	(void)(signo);
 	if (_g.times--)
 		alarm(_g.duration);
 	else
@@ -28,6 +29,7 @@ void	sig_int(int signo)
 	double		loss;
 	double		rrt;
 
+	(void)(signo);
 	gettimeofday(&_g._tv_end, NULL);
 	tv_sub(&_g._tv_end, &_g._tv_start);
 	rrt = _g._tv_end.tv_sec * 1000.0 + _g._tv_end.tv_usec / 1000.0;

@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:43:07 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:47:31 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void				ping_init(void)
 {
 	struct addrinfo		*ret;
 	void				*ptr;
-	static char			addrstr[100];
 
 	ret = host_to_addrinfo(_g.host, NULL, AF_INET6, SOCK_STREAM);
 	if (!ret)

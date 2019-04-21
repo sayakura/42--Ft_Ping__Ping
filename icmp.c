@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:43:33 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:47:20 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void		readmsg_v6(int b_read, char *recvbuff)
 {
 	struct icmp6_hdr	*icmp6;
 	struct timeval		tvrecv;
-	struct cmsghdr		*cmsg;
 	int					hlim;
 	double				rrt;
 
