@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 07:13:54 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 07:18:01 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*c_to_s(int code)
 	return (code_lookup[code]);
 }
 
-char	*t_to_s(int code)
+char	*t_to_s(int type)
 {
 	static char *type_lookup[] = {
 		"Echo reply",
@@ -57,7 +57,7 @@ char	*t_to_s(int code)
 		"Traceroute"
 	};
 
-	return (type_lookup[code]);
+	return (type_lookup[type]);
 }
 
 int		get_ip_v(char *src)
