@@ -6,17 +6,18 @@
 #    By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/21 05:24:56 by qpeng             #+#    #+#              #
-#    Updated: 2019/04/21 05:31:23 by qpeng            ###   ########.fr        #
+#    Updated: 2019/04/21 05:34:42 by qpeng            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ping
 FLAGS = -Wall -Werror -Wextra -c
-SRC = src/helper.c\
-		src/icmp.c\
-		src/main.c\
-		src/readloop.c
-OBJ = $(SRC:.c=.o)
+FILES = helper.c\
+		icmp.c\
+		main.c\
+		readloop.c
+SRCS = $(addprefix src/, $(FILES))
+OBJ = $(FILES:.c=.o)
 
 all:
 	gcc -Iinclude $(FLAGS) $(SRC)
