@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:59:08 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 07:00:53 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void			readopt(int ac, char **av)
 			arg_check(rcx, ac, av, PING_FLAG_C);
 		else if (!strcmp(av[rcx], "-i"))
 			arg_check(rcx, ac, av, PING_FLAG_I);
-		else if (!strcmp(av[rcx], "-m"))
+		else if (!strcmp(av[rcx], "-t"))
 			arg_check(rcx, ac, av, PING_FLAG_T);
 		else if (!strcmp(av[rcx], "-n"))
 			gl.r_ns_lookup = false;
@@ -128,7 +128,7 @@ void			readopt(int ac, char **av)
 		else if (!strcmp(av[rcx], "-q"))
 			gl.quiet = true;
 		else if (strcmp(av[rcx - 1], "-c") && strcmp(av[rcx - 1], "-i")
-			&& strcmp(av[rcx - 1], "-m"))
+			&& strcmp(av[rcx - 1], "-t"))
 			gl.host = strcmp(av[rcx], "0") == 0 ? "localhost" : av[rcx];
 	}
 }
