@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 07:20:00 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 07:20:36 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	print_msg(t_info info, bool is_echo)
 					: "hlim", info.cnt, info.rrt);
 		else
 			printf("%d bytes from %s: type = %d(%s), code = %d(%s)\n",
-				info.b_recv, gl.ip, info.type, _to_s(info.type), info.code,\
+				info.b_recv, gl.ip, info.type, t_to_s(info.type), info.code,\
 				c_to_s(info.code));
 		if (gl.bell)
 			write(1, &bell_char, 1);
