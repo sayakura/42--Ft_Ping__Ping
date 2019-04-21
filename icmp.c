@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:06:21 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:07:31 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void    readmsg_v6(int b_read, char *recvbuff)
             return ;
         tvsend = (struct timeval *)icmp6 + 1;
         printf("%d\n", tvsend->tv_sec);
+        printf("%d\n", tvrecv.tv_sec);
         tv_sub(&tvrecv, (struct timeval *)icmp6 + 1);
         rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
         hlim = -1;
