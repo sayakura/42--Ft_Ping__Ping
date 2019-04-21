@@ -6,7 +6,7 @@
 #    By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/21 05:24:56 by qpeng             #+#    #+#              #
-#    Updated: 2019/04/21 05:34:42 by qpeng            ###   ########.fr        #
+#    Updated: 2019/04/21 05:35:10 by qpeng            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS = $(addprefix src/, $(FILES))
 OBJ = $(FILES:.c=.o)
 
 all:
-	gcc -Iinclude $(FLAGS) $(SRC)
+	gcc -Iinclude $(FLAGS) $(SRCS)
 	gcc $(OBJ) -o $(NAME)
 clean:
 	rm $(OBJ)
