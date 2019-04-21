@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:59:58 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 07:15:58 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static void	print_msg(t_info info, bool is_echo)
 					info.b_recv, gl.ip, info.seq, info.ver == AF_INET ? "ttl"\
 					: "hlim", info.cnt, info.rrt);
 		else
-			printf(" %d bytes from %s: type = %d, code = %d\n",
-				info.b_recv, gl.ip, info.type, info.code);
+			printf("%d bytes from %s: type = [%s], code = [%s]\n",
+				info.b_recv, gl.ip, t_to_s(info.type), c_to_s(info.code));
 		if (gl.bell)
 			write(1, &bell_char, 1);
 	}
@@ -109,7 +109,6 @@ void		readmsg_v4(int b_read, char *recvbuff)
 	int				hdrlen;
 	double			rrt;
 
-	printf("triggered.\n");
 	gettimeofday(&tvrecv, NULL);
 	iphdr = (struct ip *)recvbuff;
 	hdrlen = iphdr->ip_hl << 2;
