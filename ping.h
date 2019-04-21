@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 05:05:54 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 05:09:56 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # define IP_HDR_LEN 20
 # define ICMP_HDR_KEN 8
 # define DATALEN 56
+# define LAST_ARG(rcx, ac) (rcx == (ac - 1))
 # define PCKSIZE(datalen) (DATALEN + IP_HDR_LEN + ICMP_HDR_KEN)
 # define PING_FLAG_C 0
 # define PING_FLAG_I 1

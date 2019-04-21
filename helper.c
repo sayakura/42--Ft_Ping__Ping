@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 05:06:36 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 05:09:32 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void			get_hlim_val(int *hlim)
 
 void			arg_check(int rcx, int ac, char **av, int flag)
 {
-	if (!last_arg(rcx, ac))
+	if (!LAST_ARG(rcx, ac))
 	{
 		if (atoi(av[rcx + 1]) != 0)
 		{
