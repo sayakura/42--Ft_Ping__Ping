@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:27:39 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:41:22 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,5 @@ void				sig_int(int signo);
 void				readopt(int ac, char **av);
 uint16_t			in_cksum (uint16_t *addr, int len);
 void				get_hlim_val(int *hlim);
+int					get_ip_v(char *src);
 #endif
