@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 15:53:25 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 22:11:11 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,37 +96,21 @@ void    arg_check(int rcx, int ac, char **av, int flag)
     {
         fprintf(stderr, "ping: option requires an argument -- %c\n"\
         , g_flag_lookup[flag]);
-        printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");
-        exit(EXIT_SUCCESS);
+        PRINT_USAGE;
     }
-}
-
-char    *readhost(int rcx, int ac, char **av)
-{
-    static char     *host;
-
-    host = av[rcx];
-    if (!strcmp(host, "0") || !strcmp(host, "localhost"))
-    {
-        host 
-    }
-
 }
 
 void    readopt(int ac, char **av)
 {
     int     rcx;
 
-    rcx = -1;
+    rcx = 0;
     while(++rcx < ac)
     {
         if (!strcmp(av[rcx], "-v"))
             _g.verbose = true;
         else if (!strcmp(av[rcx], "-h"))
-        {
-            printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");
-            exit(EXIT_SUCCESS);
-        }
+            PRINT_USAGE;
         else if (!strcmp(av[rcx], "-c"))
             arg_check(rcx, ac, av, PING_FLAG_C);
         else if (!strcmp(av[rcx], "-i"))
@@ -137,7 +121,7 @@ void    readopt(int ac, char **av)
             _g.bell = true;
         else if (!strcmp(av[rcx], "-q"))
             _g.quiet = true;
-        else if (strlen(av[rcx]) > 4)
-            _g.host = av[rcx];
+        else if ((strcmp(av[rcx - 1], "-c") && strcmp(av[rcx - 1], "-i")))
+            _g.host = strcmp(av[rcx], "0") == 0 ? "localhost" : av[rcx];
     }
 }

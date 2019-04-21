@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 15:17:16 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 22:10:42 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@
 # define PING_FLAG_C 0
 # define PING_FLAG_I 1
 # define NOT_ECHO -1
+# define PRINT_USAGE ({ printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");\
+                    exit(EXIT_SUCCESS);})
 
 typedef struct      s_info
 {
