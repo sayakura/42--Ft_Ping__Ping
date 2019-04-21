@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 05:15:29 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:59:58 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void		readmsg_v4(int b_read, char *recvbuff)
 	int				hdrlen;
 	double			rrt;
 
+	printf("triggered.\n");
 	gettimeofday(&tvrecv, NULL);
 	iphdr = (struct ip *)recvbuff;
 	hdrlen = iphdr->ip_hl << 2;

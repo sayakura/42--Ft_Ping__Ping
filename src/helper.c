@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:53:23 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:59:08 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ const char		*g_err_msg_fmt[] = {
 const char		g_flag_lookup[] = {
 	'c',
 	'i',
-	'm'
+	't'
 };
 
 uint16_t		in_cksum(uint16_t *addr, int len)
@@ -87,7 +87,7 @@ void			arg_check(int rcx, int ac, char **av, int flag)
 				gl.times = atoi(av[rcx + 1]);
 			else if (flag == PING_FLAG_I)
 				gl.duration = atoi(av[rcx + 1]);
-			else if (flag == PING_FLAG_M)
+			else if (flag == PING_FLAG_T)
 				gl.ttl = atoi(av[rcx + 1]);
 		}
 		else
@@ -120,7 +120,7 @@ void			readopt(int ac, char **av)
 		else if (!strcmp(av[rcx], "-i"))
 			arg_check(rcx, ac, av, PING_FLAG_I);
 		else if (!strcmp(av[rcx], "-m"))
-			arg_check(rcx, ac, av, PING_FLAG_M);
+			arg_check(rcx, ac, av, PING_FLAG_T);
 		else if (!strcmp(av[rcx], "-n"))
 			gl.r_ns_lookup = false;
 		else if (!strcmp(av[rcx], "-a"))
