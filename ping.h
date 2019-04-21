@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 22:13:30 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 22:46:58 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 # define NOT_ECHO -1
 # define PRINT_USAGE ({ printf("usage: ping [-v][-i][-c][-a][-q] host [-h]\n");\
                     exit(EXIT_SUCCESS);})
-
+# define FETAL(msg) ({fprintf(stderr, "%s\n", msg); exit(EXIT_FAILURE);})
 typedef struct      s_info
 {
     char            ver;
@@ -62,12 +62,6 @@ typedef struct      s_info
     int             cnt;
     double          rrt;
 }                   t_info;
-
-// # define FETAL(msg, arg) ({\
-//             fprintf(stderr, msg); \
-//             fprintf(stderr, arg); \
-//             exit(EXIT_FAILURE);\
-//         })
 
 struct              s_pin_g
 {
@@ -118,6 +112,7 @@ u_int8_t            get_checksum(uint16_t *b, int len);
 double              caltime(struct timeval end, struct timeval start);
 struct addrinfo *   host_to_addrinfo(const char *host, const char *serv, int family, int socktype);
 void                sig_alrm(int signo);
+void                sig_int(int signo);
 void                readloop(void);
 void                stat_cnt(double rrt);
 void                tv_sub(struct timeval *out, struct timeval *in);

@@ -6,30 +6,13 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 22:20:54 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/20 22:46:59 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ping.h"
 
 
-void                sig_int(int signo)
-{
-    int         diff;
-    double      loss;
-    double      rrt;
-
-    gettimeofday(&_g._tv_end,NULL);
-    tv_sub(&_g._tv_end, &_g._tv_start);
-    rrt = _g._tv_end.tv_sec * 1000.0 +  _g._tv_end.tv_usec / 1000.0;
-    diff = _g.msg_cnt - _g.pkg_received;
-    loss = (double)diff / _g.msg_cnt * 100;
-    printf("\n--- %s ping statistics ---\n", _g.host);
-    printf("%d packets transmitted, %d received, %.0f%% packet loss time %.0f ms\n",\
-    _g.msg_cnt, _g.pkg_received, loss, rrt); 
-    printf("rtt min/avg/max= /%.3f/%.3f/%.3f ms\n", _g.min, _g.total /  _g.pkg_received,  _g.max);
-    exit(EXIT_SUCCESS);
-}
 
 struct addrinfo     *host_to_addrinfo(const char *host, const char *serv, int family, int socktype)
 {
