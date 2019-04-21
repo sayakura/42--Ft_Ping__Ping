@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 05:09:56 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:27:39 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char				*lookup_host (const char *host);
 char				*reverse_dns_lookup(char *ip_addr);
 u_int8_t			get_checksum(uint16_t *b, int len);
 double				caltime(struct timeval end, struct timeval start);
-struct addrinfo		*host_to_addrinfo(const char *host, const char *serv,\
+struct addrinfo		*host_to_addrinfo(char *host, const char *serv,\
 												int family, int socktype);
 void				sig_alrm(int signo);
 void				sig_int(int signo);
