@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 05:17:14 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:56:24 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	creat_sock(void)
 		setsockopt(gl.sockfd, IPPROTO_IPV6,\
 							IPV6_RECVHOPLIMIT, &on, sizeof(on));
 	setsockopt(gl.sockfd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
+	setsockopt(gl.sockfd, IPPROTO_IP, IP_TTL, &gl.ttl, sizeof(gl.ttl));
 }
 
 void	readloop(void)

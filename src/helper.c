@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 05:19:44 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:53:23 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 const char		*g_err_msg_fmt[] = {
 	"ping: invalid count of packets to transmit:",
-	"ping: invalid timing interval:"
+	"ping: invalid timing interval:",
+	"ping: invalid TTL:"
 };
 
 const char		g_flag_lookup[] = {
 	'c',
-	'i'
+	'i',
+	'm'
 };
 
 uint16_t		in_cksum(uint16_t *addr, int len)
@@ -79,12 +81,14 @@ void			arg_check(int rcx, int ac, char **av, int flag)
 {
 	if (!LAST_ARG(rcx, ac))
 	{
-		if (atoi(av[rcx + 1]) != 0)
+		if (atoi(av[rcx + 1]) > 0)
 		{
 			if (flag == PING_FLAG_C)
 				gl.times = atoi(av[rcx + 1]);
 			else if (flag == PING_FLAG_I)
 				gl.duration = atoi(av[rcx + 1]);
+			else if (flag == PING_FLAG_M)
+				gl.ttl = atoi(av[rcx + 1]);
 		}
 		else
 		{
@@ -115,13 +119,16 @@ void			readopt(int ac, char **av)
 			arg_check(rcx, ac, av, PING_FLAG_C);
 		else if (!strcmp(av[rcx], "-i"))
 			arg_check(rcx, ac, av, PING_FLAG_I);
+		else if (!strcmp(av[rcx], "-m"))
+			arg_check(rcx, ac, av, PING_FLAG_M);
 		else if (!strcmp(av[rcx], "-n"))
 			gl.r_ns_lookup = false;
 		else if (!strcmp(av[rcx], "-a"))
 			gl.bell = true;
 		else if (!strcmp(av[rcx], "-q"))
 			gl.quiet = true;
-		else if ((strcmp(av[rcx - 1], "-c") && strcmp(av[rcx - 1], "-i")))
+		else if (strcmp(av[rcx - 1], "-c") && strcmp(av[rcx - 1], "-i")
+			&& strcmp(av[rcx - 1], "-m"))
 			gl.host = strcmp(av[rcx], "0") == 0 ? "localhost" : av[rcx];
 	}
 }

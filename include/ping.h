@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:41:22 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:52:11 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define PCKSIZE(datalen) (DATALEN + IP_HDR_LEN + ICMP_HDR_KEN)
 # define PING_FLAG_C 0
 # define PING_FLAG_I 1
+# define PING_FLAG_M 2
 # define NOT_ECHO -1
 # define FMT "usage: ping [-v][-i][-c][-a][-q] host [-h]\n"
 # define PRINT_USAGE ({printf(FMT); exit(EXIT_SUCCESS);})
@@ -85,7 +86,7 @@ struct				s_pin_g
 	int					ssendlen;
 	unsigned int		seq;
 	int					datalen;
-	int					ttl_val;
+	int					ttl;
 	int					pkg_siz;
 	int					time_out;
 	int					sockfd;
