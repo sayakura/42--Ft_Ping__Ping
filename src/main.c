@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:42:51 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:44:53 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ void				ping_init(void)
 {
 	struct addrinfo		*ret;
 	void				*ptr;
+	int					version;
 
-	ret = host_to_addrinfo(gl.host, NULL, get_ip_v(gl.host) == 4 ?
+	version = get_ip_v(gl.host);
+	ret = host_to_addrinfo(gl.host, NULL,  (version == 4 || version == 0) ?
 		AF_INET : AF_INET6, SOCK_STREAM);
 	setuid(getuid());
 	gl.ssend = ret->ai_addr;
