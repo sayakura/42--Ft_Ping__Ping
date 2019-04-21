@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:12:52 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:14:55 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void    readloop(void)
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, _g.protocol);
     _tmp = 60 * 1024;
     printf("pro: %d\n",  _g.protocol);
-    if (_g.protocol == AF_INET6)
+    if (_g.protocol == IPPROTO_ICMPV6)
 	{
         status = setsockopt(_g.sockfd , IPPROTO_IPV6, IPV6_HOPLIMIT, &on, sizeof(on));
         printf("sect: %d\n", status);
