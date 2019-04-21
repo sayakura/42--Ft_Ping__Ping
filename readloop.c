@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 03:23:29 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:11:36 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,16 @@ void    readloop(void)
     int             on;
     char            recvbuff[BUFF_SIZE];
     char            ctrlbuff[BUFF_SIZE];
+    int             status;
 
     on = 1;
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, _g.protocol);
     _tmp = 60 * 1024;
     if (_g.protocol == AF_INET6)
-	    setsockopt(_g.sockfd , IPPROTO_IPV6, IPV6_HOPLIMIT, &on, sizeof(on));
+	{
+        status = setsockopt(_g.sockfd , IPPROTO_IPV6, IPV6_HOPLIMIT, &on, sizeof(on));
+        printf("sect: %d\n", status);
+    }
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));
     _g.iov.iov_base = recvbuff;
     _g.iov.iov_len = sizeof(recvbuff);
