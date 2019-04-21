@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:17:17 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:22:20 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void    sig_alrm(int signo)
 	return;	
 }
 
-void                sig_int(int signo)
+void    sig_int(int signo)
 {
     int         diff;
     double      loss;
@@ -36,12 +36,13 @@ void                sig_int(int signo)
     printf("\n--- %s ping statistics ---\n", _g.host);
     printf("%d packets transmitted, %d received, %.0f%% packet loss time %.0f ms\n",\
     _g.msg_cnt, _g.pkg_received, loss, rrt); 
-    printf("rtt min/avg/max= /%.3f/%.3f/%.3f ms\n", _g.min, _g.total /  _g.pkg_received,  _g.max);
+    printf("rtt min/avg/max= /%.3f/%.3f/%.3f ms\n",\
+        _g.min, _g.total / _g.pkg_received,  _g.max);
     exit(EXIT_SUCCESS);
 }
 
 
-void   tv_sub(struct timeval *out, struct timeval *in)
+void    tv_sub(struct timeval *out, struct timeval *in)
 {
     if ((out->tv_usec -= in->tv_usec) < 0) 
     {    
@@ -51,20 +52,27 @@ void   tv_sub(struct timeval *out, struct timeval *in)
     out->tv_sec -= in->tv_sec;
 }
 
-void    readloop(void)
+void    creat_sock(void)
 {
-    int             _tmp;
     int             on;
-    char            recvbuff[BUFF_SIZE];
-    char            ctrlbuff[BUFF_SIZE];
-    int             status;
+    int             _tmp;
 
     on = 1;
+    _tmp = 60 * 1024
     _g.sockfd = socket(_g.ssend->sa_family, SOCK_RAW, _g.protocol);
-    _tmp = 60 * 1024;
     if (_g.protocol == IPPROTO_ICMPV6)
-        status = setsockopt(_g.sockfd , IPPROTO_IPV6, IPV6_RECVHOPLIMIT, &on, sizeof(on));
+        status = setsockopt(_g.sockfd , IPPROTO_IPV6,\
+        IPV6_RECVHOPLIMIT, &on, sizeof(on));
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));
+}
+
+void    readloop(void)
+{
+    int             b_recv;
+    char            recvbuff[BUFF_SIZE];
+    char            ctrlbuff[BUFF_SIZE];
+
+    creat_sock();
     _g.iov.iov_base = recvbuff;
     _g.iov.iov_len = sizeof(recvbuff);
     _g.msg.msg_name = _g.srecv;
@@ -77,10 +85,10 @@ void    readloop(void)
     {
         _g.msg.msg_namelen = _g.ssendlen;
         _g.msg.msg_controllen = sizeof(ctrlbuff);
-        _tmp = recvmsg(_g.sockfd, &(_g.msg), 0);
-        if (_tmp < 0)
+        b_recv = recvmsg(_g.sockfd, &(_g.msg), 0);
+        if (b_recv < 0)
             FETAL("Recvmsg Error.");
         else
-            _g.ft_recv(_tmp, recvbuff);
+            _g.ft_recv(b_recv, recvbuff);
     }
 }
