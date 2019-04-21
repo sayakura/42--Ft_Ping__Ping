@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 04:15:31 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 04:16:51 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void    readloop(void)
     printf("pro: %d\n",  _g.protocol);
     if (_g.protocol == IPPROTO_ICMPV6)
 	{
-        status = setsockopt(_g.sockfd , IPPROTO_IPV6, IPV6_HOPLIMIT, &on, sizeof(on));
+        status = setsockopt(_g.sockfd , IPPROTO_IPV6, IPV6_RECVHOPLIMIT, &on, sizeof(on));
         perror("setsockopt");
     }
 	setsockopt(_g.sockfd , SOL_SOCKET, SO_RCVBUF, &_tmp, sizeof(_tmp));
