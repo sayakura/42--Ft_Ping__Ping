@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:19:43 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 06:27:08 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char				*reverse_dns_lookup(char *ip_addr)
 	return (ret_buf);
 }
 
-struct addrinfo		*host_to_addrinfo(const char *host,\
+struct addrinfo		*host_to_addrinfo(char *host,\
 						const char *serv, int family, int socktype)
 {
 	struct addrinfo hints;
@@ -41,6 +41,7 @@ struct addrinfo		*host_to_addrinfo(const char *host,\
 	hints.ai_socktype = socktype;
 	if (getaddrinfo(host, serv, &hints, &res) != 0)
 	{
+		perror("getaddrinfo");
 		fprintf(stderr, "ping: %s: Name or service not known\n", host);
 		exit(EXIT_FAILURE);
 	}
