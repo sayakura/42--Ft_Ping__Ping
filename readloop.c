@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 22:47:01 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 01:05:32 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,13 @@ void    readloop(void)
     _g.msg.msg_control = ctrlbuff;
     sig_alrm(SIGALRM);
     gettimeofday(&_g._tv_start, NULL);
+    printf("before recv\n");
     while (1)
     {
         _g.msg.msg_namelen = _g.ssendlen;
         _g.msg.msg_controllen = sizeof(ctrlbuff);
         _tmp = recvmsg(_g.sockfd, &(_g.msg), 0);
+        printf("after recv %d\n", _tmp);
         if (_tmp < 0)
             FETAL("Recvmsg Error.");
         else

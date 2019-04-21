@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/20 22:38:21 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 01:03:21 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void        send_v6(void)
 {
     int                 len;
     struct  icmp6_hdr   *icmp;
-    int                 status;
 
     icmp = (struct icmp6_hdr *)_g.sendbuf;
     icmp->icmp6_type = ICMP6_ECHO_REQUEST;
@@ -44,8 +43,7 @@ void        send_v6(void)
     memset((icmp + 1), 0x77, DATALEN);
     gettimeofday((struct timeval *)(icmp + 1), NULL);
     len = 8 + DATALEN;
-    status = sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
-    perror("sendto");
+    sendto(_g.sockfd, _g.sendbuf, len, 0, _g.ssend, _g.ssendlen);
 }
 
 static void _print_msg(t_info info, bool is_echo)
