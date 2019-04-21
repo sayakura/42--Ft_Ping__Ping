@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 05:14:04 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 05:17:14 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	sig_int(int signo)
 	loss = (double)diff / gl.msg_cnt * 100;
 	printf("\n--- %s ping statistics ---\n", gl.host);
 	printf("%d packets transmitted, %d received, %.0f%% packet loss"
-													"time %.0f ms\n",
+												" time %.0f ms\n",
 	gl.msg_cnt, gl.pkg_received, loss, rrt);
 	printf("rtt min/avg/max= /%.3f/%.3f/%.3f ms\n",\
 						gl.min, gl.total / gl.pkg_received, gl.max);

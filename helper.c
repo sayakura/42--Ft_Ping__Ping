@@ -6,15 +6,15 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 05:09:32 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 05:19:44 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ping.h"
 
 const char		*g_err_msg_fmt[] = {
-	"ping: invalid timing interval:",
-	"ping: invalid count of packets to transmit:"
+	"ping: invalid count of packets to transmit:",
+	"ping: invalid timing interval:"
 };
 
 const char		g_flag_lookup[] = {
@@ -88,13 +88,13 @@ void			arg_check(int rcx, int ac, char **av, int flag)
 		}
 		else
 		{
-			fprintf(stderr, "%s `%s`", g_err_msg_fmt[flag], av[rcx + 1]);
+			fprintf(stderr, "%s `%s`\n", g_err_msg_fmt[flag], av[rcx + 1]);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		fprintf(stderr, "ping: option requires an argument -- %c\n"\
+		fprintf(stderr, "ping: option requires an argument -- %c\n"
 		, g_flag_lookup[flag]);
 		PRINT_USAGE;
 	}
