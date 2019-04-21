@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 02:19:07 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 02:43:53 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ void    get_hlim_val(int *hlim)
     cmsg = CMSG_FIRSTHDR(&_g.msg);
     while (cmsg != NULL)
     {
-            if (cmsg->cmsg_level == IPPROTO_IPV6
-                && cmsg->cmsg_type == IPV6_HOPLIMIT)
-            {
-                *hlim = * (u_int32_t *) CMSG_DATA (cmsg);
-                break;
-            }
+        if (cmsg->cmsg_level == IPPROTO_IPV6
+            && cmsg->cmsg_type == IPV6_HOPLIMIT)
+        {
+            *hlim = * (u_int32_t *) CMSG_DATA (cmsg);
+            break;
+        }
         cmsg = CMSG_NXTHDR(&_g.msg, cmsg);
     }
 }
@@ -100,7 +100,6 @@ void    readmsg_v6(int b_read, char *recvbuff)
     int                 hlim;
     double              rrt;
 
-    printf("receving!\n");
     gettimeofday(&tvrecv, NULL);
     icmp6 = (struct icmp6_hdr *)recvbuff;
     if (b_read < 8)
@@ -109,7 +108,6 @@ void    readmsg_v6(int b_read, char *recvbuff)
     {
         if (icmp6->icmp6_id != _g.pid || b_read < 16)
             return ;
-        printf("yesah!\n");
         tv_sub(&tvrecv, (struct timeval *)icmp6 + 1);
         rrt = tvrecv.tv_sec * 1000.0 + tvrecv.tv_usec / 1000.0;
         hlim = -1;
@@ -120,7 +118,6 @@ void    readmsg_v6(int b_read, char *recvbuff)
     else if (_g.verbose)
         _print_msg((t_info){.ver = AF_INET, .b_recv = b_read, .type = icmp6->icmp6_type, 
             .code = icmp6->icmp6_code}, false);
-    printf("done!\n");
 }
 
 void    readmsg_v4(int b_read, char *recvbuff)
