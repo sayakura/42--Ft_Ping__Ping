@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 01:03:21 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 01:10:56 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void    readmsg_v6(int b_read, char *recvbuff)
     int                 hlim;
     double              rrt;
 
+    printf("receving!\n");
     gettimeofday(&tvrecv, NULL);
     icmp6 = (struct icmp6_hdr *)recvbuff;
     if (b_read < 8)

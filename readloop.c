@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 01:05:32 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 01:09:44 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void    readloop(void)
     _g.msg.msg_control = ctrlbuff;
     sig_alrm(SIGALRM);
     gettimeofday(&_g._tv_start, NULL);
-    printf("before recv\n");
     while (1)
     {
         _g.msg.msg_namelen = _g.ssendlen;
