@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 07:18:01 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/21 07:27:46 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,34 @@ char	*c_to_s(int code)
 		"Precedence cutoff is in effect"
 	};
 
+	if (code < 0 || code > 15)
+		return ("unknown code");
 	return (code_lookup[code]);
 }
 
 char	*t_to_s(int type)
 {
 	static char *type_lookup[] = {
-		"Echo reply",
+		"Echo reply", NULL, NULL,
 		"Destination unreachable",
-		"Source quench",
-		"Redirect",
-		"Echo",
+		"Source quench", "Redirect",
+		NULL, NULL, "Echo",
 		"Router advertisement",
 		"Router selection",
 		"Time exceeded",
 		"Parameter problem",
-		"Timestamp",
-		"Timestamp reply",
+		"Timestamp", "Timestamp reply",
 		"Information request",
 		"Information reply",
 		"Address mask request",
 		"Address mask reply",
+		NULL, NULL, NULL, NULL, NULL, NULL,
+		NULL, NULL, NULL, NULL, NULL,
 		"Traceroute"
 	};
 
+	if (type < 0 || type > 30)
+		return ("unknown type");
 	return (type_lookup[type]);
 }
 
