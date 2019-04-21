@@ -6,7 +6,7 @@
 #    By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/21 05:24:56 by qpeng             #+#    #+#              #
-#    Updated: 2019/04/21 05:46:52 by qpeng            ###   ########.fr        #
+#    Updated: 2019/04/21 06:43:31 by qpeng            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ FLAGS = -Wall -Werror -Wextra -c
 FILES = helper.c\
 		icmp.c\
 		main.c\
-		readloop.c
+		readloop.c\
+		helper2.c
 SRCS = $(addprefix src/, $(FILES))
 OBJ = $(FILES:.c=.o)
 
