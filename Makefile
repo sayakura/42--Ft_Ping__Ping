@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+         #
+#    By: kura <kura@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/21 05:24:56 by qpeng             #+#    #+#              #
-#    Updated: 2019/04/21 06:43:31 by qpeng            ###   ########.fr        #
+#    Updated: 2019/04/22 21:14:39 by kura             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ping
-FLAGS = -Wall -Werror -Wextra -c
+FLAGS = -Wall -Werror -Wextra -c -g
 FILES = helper.c\
 		icmp.c\
 		main.c\

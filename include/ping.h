@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ping.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 07:15:15 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/22 21:34:44 by kura             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 # include <netinet/in.h>
 # include <netinet/icmp6.h>
 
-# define XOR(a) a ^= a
 # define PING_TTL 255
 # define PING_PKG_SIZ 56
 # define PING_TIMEOUT 4
@@ -50,9 +49,13 @@
 # define PING_FLAG_I 1
 # define PING_FLAG_T 2
 # define NOT_ECHO -1
-# define FMT "usage: ping [-v][-i][-c][-a][-q] host [-h]\n"
+# define FMT2 "ping: invalid option -- '%s'\n"
+# define FMT "usage: ping [-v][-i][-c][-a][-q][-t][-h] host \n"
 # define PRINT_USAGE ({printf(FMT); exit(EXIT_SUCCESS);})
 # define FETAL(msg) ({fprintf(stderr, "%s\n", msg); exit(EXIT_FAILURE);})
+# define ERR_QUIT(f) ({perror(f); exit(EXIT_FAILURE);})
+# define ERR_CHECK(cond, f) ({if(cond)ERR_QUIT(f);})
+# define INVALID_OPT(s) ({fprintf(stderr, FMT2, s); PRINT_USAGE; })
 
 typedef struct		s_info
 {

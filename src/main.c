@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:54:55 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/22 21:53:50 by kura             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ void				ping_init(void)
 	void				*ptr;
 	int					version;
 
+	if (!gl.host)
+		PRINT_USAGE;
 	version = get_ip_v(gl.host);
 	ret = host_to_addrinfo(gl.host, NULL, (version == 4 || version == 0) ?
 		AF_INET : AF_INET6, SOCK_STREAM);
-	setuid(getuid());
 	gl.ssend = ret->ai_addr;
 	gl.ssendlen = ret->ai_addrlen;
 	if (ret->ai_family == AF_INET)
@@ -66,11 +67,9 @@ void				ping_init(void)
 	gl.ft_send = (ret->ai_family == AF_INET) ? send_v4 : send_v6;
 	gl.ft_recv = (ret->ai_family == AF_INET) ? readmsg_v4 : readmsg_v6;
 	gl.protocol = (ret->ai_family == AF_INET) ? IPPROTO_ICMP : IPPROTO_ICMPV6;
-	inet_ntop(ret->ai_family, ptr, gl.ip, 100);
+	ERR_CHECK(!inet_ntop(ret->ai_family, ptr, gl.ip, 100), "inet_ntop");
 	gl.r_host = gl.r_ns_lookup && ret->ai_family ==\
 								AF_INET ? reverse_dns_lookup(gl.ip) : gl.host;
-	printf("PING %s (%s): %d data (%d) bytes of data\n",\
-									gl.host, gl.ip, DATALEN, PCKSIZE(DATALEN));
 }
 
 void				env_init(void)
@@ -78,17 +77,24 @@ void				env_init(void)
 	gl.msg_cnt = 0;
 	gl.min = 0.0000;
 	gl.max = 0.0000;
+	gl.total = 0.0000;
 	gl.times = INT32_MAX;
 	gl.duration = 1;
 	gl.r_ns_lookup = true;
 	gl.pid = getpid() & 0xffff;
 	gl.ttl = 64;
-	signal(SIGALRM, sig_alrm);
-	signal(SIGINT, sig_int);
+	gl.host = NULL;
+	ERR_CHECK(signal(SIGALRM, sig_alrm) == SIG_ERR, "signal");
+	ERR_CHECK(signal(SIGINT, sig_int) == SIG_ERR, "signal");
 }
 
 int					main(int ac, char **av)
 {
+	if (ac < 2)
+	{
+		PRINT_USAGE;
+		exit(EXIT_FAILURE);
+	}
 	env_init();
 	readopt(ac, av);
 	ping_init();

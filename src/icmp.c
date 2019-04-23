@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   icmp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:54 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 07:32:22 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/22 21:23:25 by kura             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ void		send_v4(void)
 	icmp->icmp_code = 0;
 	icmp->icmp_id = gl.pid;
 	icmp->icmp_seq = gl.msg_cnt++;
-	memset(icmp->icmp_data, 0xa5, DATALEN);
-	gettimeofday((struct timeval *)icmp->icmp_data, NULL);
+	memset(icmp->icmp_data, 0x77, DATALEN);
+	ERR_CHECK(gettimeofday((struct timeval *)icmp->icmp_data, NULL),\
+		"gettimeofday");
 	len = 8 + DATALEN;
 	icmp->icmp_cksum = 0;
 	icmp->icmp_cksum = in_cksum((u_short *)icmp, len);
-	sendto(gl.sockfd, gl.sendbuf, len, 0, gl.ssend, gl.ssendlen);
+	if (sendto(gl.sockfd, gl.sendbuf, len, 0, gl.ssend, gl.ssendlen) < 0)
+		ERR_QUIT("sendto");
 }
 
 void		send_v6(void)
@@ -41,9 +43,11 @@ void		send_v6(void)
 	icmp->icmp6_id = gl.pid;
 	icmp->icmp6_seq = gl.msg_cnt++;
 	memset((icmp + 1), 0x77, DATALEN);
-	gettimeofday((struct timeval *)(icmp + 1), NULL);
+	ERR_CHECK(gettimeofday((struct timeval *)(icmp + 1), NULL),
+		"gettimeofday");
 	len = 8 + DATALEN;
-	sendto(gl.sockfd, gl.sendbuf, len, 0, gl.ssend, gl.ssendlen);
+	if (sendto(gl.sockfd, gl.sendbuf, len, 0, gl.ssend, gl.ssendlen) < 0)
+		ERR_QUIT("sendto");
 }
 
 static void	print_msg(t_info info, bool is_echo)
@@ -82,7 +86,7 @@ void		readmsg_v6(int b_read, char *recvbuff)
 	int					hlim;
 	double				rrt;
 
-	gettimeofday(&tvrecv, NULL);
+	ERR_CHECK(gettimeofday(&tvrecv, NULL), "gettimeofday");
 	icmp6 = (struct icmp6_hdr *)recvbuff;
 	if (b_read < 8)
 		return ;
@@ -110,7 +114,7 @@ void		readmsg_v4(int b_read, char *recvbuff)
 	int				hdrlen;
 	double			rrt;
 
-	gettimeofday(&tvrecv, NULL);
+	ERR_CHECK(gettimeofday(&tvrecv, NULL), "gettimeofday");
 	iphdr = (struct ip *)recvbuff;
 	hdrlen = iphdr->ip_hl << 2;
 	if (iphdr->ip_p != IPPROTO_ICMP || (b_read - hdrlen) < 8)

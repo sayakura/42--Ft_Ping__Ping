@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 07:00:53 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/22 21:34:29 by kura             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void			readopt(int ac, char **av)
 
 	rcx = 0;
 	while (++rcx < ac)
-	{
 		if (!strcmp(av[rcx], "-v"))
 			gl.verbose = true;
 		else if (!strcmp(av[rcx], "-h"))
@@ -127,8 +126,9 @@ void			readopt(int ac, char **av)
 			gl.bell = true;
 		else if (!strcmp(av[rcx], "-q"))
 			gl.quiet = true;
+		else if (av[rcx][0] == '-')
+			INVALID_OPT(av[rcx] + 1);
 		else if (strcmp(av[rcx - 1], "-c") && strcmp(av[rcx - 1], "-i")
 			&& strcmp(av[rcx - 1], "-t"))
 			gl.host = strcmp(av[rcx], "0") == 0 ? "localhost" : av[rcx];
-	}
 }

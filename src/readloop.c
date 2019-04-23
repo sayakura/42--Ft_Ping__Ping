@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readloop.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/21 06:56:24 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/04/22 21:48:41 by kura             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	sig_int(int signo)
 	double		rrt;
 
 	(void)(signo);
-	gettimeofday(&gl.tv_end, NULL);
+	ERR_CHECK(gettimeofday(&gl.tv_end, NULL), "gettimeofday");
 	tv_sub(&gl.tv_end, &gl.tv_start);
 	rrt = gl.tv_end.tv_sec * 1000.0 + gl.tv_end.tv_usec / 1000.0;
 	diff = gl.msg_cnt - gl.pkg_received;
@@ -62,11 +62,18 @@ void	creat_sock(void)
 	on = 1;
 	size = 60 * 1024;
 	gl.sockfd = socket(gl.ssend->sa_family, SOCK_RAW, gl.protocol);
+	ERR_CHECK(gl.sockfd == -1, "socket");
 	if (gl.protocol == IPPROTO_ICMPV6)
-		setsockopt(gl.sockfd, IPPROTO_IPV6,\
-							IPV6_RECVHOPLIMIT, &on, sizeof(on));
-	setsockopt(gl.sockfd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
-	setsockopt(gl.sockfd, IPPROTO_IP, IP_TTL, &gl.ttl, sizeof(gl.ttl));
+	{
+		if (setsockopt(gl.sockfd, IPPROTO_IPV6,\
+							IPV6_RECVHOPLIMIT, &on, sizeof(on)))
+			FETAL("Can't set hop limit for the socket.");
+	}
+	if (setsockopt(gl.sockfd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size)))
+		fprintf(stderr, "Can't set receive buffer size for socket.");
+	if (setsockopt(gl.sockfd, gl.protocol == IPPROTO_ICMPV6 ? 
+		IPPROTO_IPV6 : IPPROTO_IP, IP_TTL, &gl.ttl, sizeof(gl.ttl)))
+		FETAL("Can't set ttl value for the socket.");
 }
 
 void	readloop(void)
@@ -76,6 +83,8 @@ void	readloop(void)
 	char		ctrlbuff[BUFF_SIZE];
 
 	creat_sock();
+	printf("PING %s (%s): %d data (%d) bytes of data\n",\
+									gl.host, gl.ip, DATALEN, PCKSIZE(DATALEN));
 	gl.iov.iov_base = recvbuff;
 	gl.iov.iov_len = sizeof(recvbuff);
 	gl.msg.msg_name = gl.srecv;
@@ -83,7 +92,7 @@ void	readloop(void)
 	gl.msg.msg_iovlen = 1;
 	gl.msg.msg_control = ctrlbuff;
 	sig_alrm(SIGALRM);
-	gettimeofday(&gl.tv_start, NULL);
+	ERR_CHECK(gettimeofday(&gl.tv_start, NULL), "gettimeofday");
 	while (1)
 	{
 		gl.msg.msg_namelen = gl.ssendlen;
