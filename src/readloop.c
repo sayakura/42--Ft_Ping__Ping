@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readloop.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/22 21:48:41 by kura             ###   ########.fr       */
+/*   Updated: 2019/04/22 22:12:12 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	creat_sock(void)
 	}
 	if (setsockopt(gl.sockfd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size)))
 		fprintf(stderr, "Can't set receive buffer size for socket.");
-	if (setsockopt(gl.sockfd, gl.protocol == IPPROTO_ICMPV6 ? 
+	if (setsockopt(gl.sockfd, gl.protocol == IPPROTO_ICMPV6 ?
 		IPPROTO_IPV6 : IPPROTO_IP, IP_TTL, &gl.ttl, sizeof(gl.ttl)))
 		FETAL("Can't set ttl value for the socket.");
 }
