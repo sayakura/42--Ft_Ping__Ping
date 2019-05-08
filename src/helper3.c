@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 00:29:46 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 05:43:32 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 05:45:41 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void        bzero_(void *rsi, size_t rcx)
 char        *strcpy_(char *rdi, const char *rsi)
 {
     char *rax = rdi;
-    while(*rdi++ = *rsi++)
+    while ((*rdi++ = *rsi++))
         ;
     return (rax);
 }
