@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/22 22:12:12 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 04:55:13 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	creat_sock(void)
 	on = 1;
 	size = 60 * 1024;
 	gl.sockfd = socket(gl.ssend->sa_family, SOCK_RAW, gl.protocol);
+	printf("%d\n", gl.sockfd);
 	ERR_CHECK(gl.sockfd == -1, "socket");
 	if (gl.protocol == IPPROTO_ICMPV6)
 	{
