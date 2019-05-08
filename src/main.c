@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 04:52:59 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 04:53:15 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ struct addrinfo		*host_to_addrinfo(char *host,\
 	struct addrinfo hints;
 	struct addrinfo *res;
 
-	bzero(&hints, sizeof(struct addrinfo));
+	bzero_(&hints, sizeof(struct addrinfo));
 	hints.ai_flags = AI_CANONNAME;
 	hints.ai_family = family;
 	hints.ai_socktype = socktype;
