@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 05:48:32 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 06:33:24 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ void	readloop(void)
 	char		ctrlbuff[BUFF_SIZE];
 
 	creat_sock();
-	printf("PING %s (%s): %d data (%d) bytes of data\n",\
-									gl.host, gl.ip, DATALEN, PCKSIZE(DATALEN));
 	gl.iov.iov_base = recvbuff;
 	gl.iov.iov_len = sizeof(recvbuff);
 	gl.msg.msg_name = gl.srecv;
@@ -93,6 +91,8 @@ void	readloop(void)
 	gl.msg.msg_control = ctrlbuff;
 	sig_alrm(SIGALRM);
 	ERR_CHECK(gettimeofday(&gl.tv_start, NULL), "gettimeofday");
+	printf("PING %s (%s): %d data (%d) bytes of data\n",\
+									gl.host, gl.ip, DATALEN, PCKSIZE(DATALEN));
 	while (1)
 	{
 		gl.msg.msg_namelen = gl.ssendlen;
