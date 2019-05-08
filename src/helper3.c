@@ -6,25 +6,22 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 00:29:46 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 05:45:41 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 05:46:43 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include "ping.h"
 
-extern const char * const   sys_errlist[];
-extern int            sys_nerr;
 extern int                  errno;
 
 void        perror_(const char *s)
 {    
-    if (errno < 0 || errno >= sys_nerr
-        || sys_errlist[errno] == NULL)
+    if (errno < 0)
         fprintf(stderr, "Unknown error : %d\n", errno);
     else
         fprintf(stderr, "%s: %s\n", s, 
-                                    sys_errlist[errno]);
+                                    strerror(errno));
 }
 
 int         strcmp_(const char *rdi, const char *rsi)
