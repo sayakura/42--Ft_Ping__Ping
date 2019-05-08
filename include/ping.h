@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 01:17:39 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 01:57:17 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void				get_hlim_val(int *hlim);
 int					get_ip_v(char *src);
 char				*c_to_s(int code);
 char				*t_to_s(int code);
-void        		perror__(const char *s);
-int					strcmp__(const char *rdi, const char *rsi);
-void				*bzero__(void *rsi, size_t rcx);
+void        		perror_(const char *s);
+int					strcmp_(const char *rdi, const char *rsi);
+void				*bzero_(void *rsi, size_t rcx);
 #endif
