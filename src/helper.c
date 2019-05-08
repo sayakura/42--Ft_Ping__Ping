@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 01:17:12 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 06:28:10 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ uint16_t		in_cksum(uint16_t *addr, int len)
 
 void			stat_cnt(double rrt)
 {
-	gl.pkg_received++;
 	if (rrt != NOT_ECHO)
 	{
+		gl.pkg_received++;
 		gl.total += rrt;
 		if (rrt < gl.min || gl.min == 0.0000)
 			gl.min = rrt;
