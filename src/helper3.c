@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 00:29:46 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 01:57:08 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 05:43:32 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ping.h"
 
 extern const char * const   sys_errlist[];
-extern const int            sys_nerr;
+extern int            sys_nerr;
 extern int                  errno;
 
 void        perror_(const char *s)
@@ -23,7 +23,8 @@ void        perror_(const char *s)
         || sys_errlist[errno] == NULL)
         fprintf(stderr, "Unknown error : %d\n", errno);
     else
-        fprintf(stderr, "%s\n", sys_errlist[errno]);
+        fprintf(stderr, "%s: %s\n", s, 
+                                    sys_errlist[errno]);
 }
 
 int         strcmp_(const char *rdi, const char *rsi)
@@ -34,7 +35,7 @@ int         strcmp_(const char *rdi, const char *rsi)
 	return (*(unsigned char *)rdi - *(unsigned char *)--rsi);
 }
 
-void        *bzero_(void *rsi, size_t rcx)
+void        bzero_(void *rsi, size_t rcx)
 {
     char    *rdi;
 
@@ -44,4 +45,12 @@ void        *bzero_(void *rsi, size_t rcx)
         *rdi = 0;
         rdi++;
     }
+}
+
+char        *strcpy_(char *rdi, const char *rsi)
+{
+    char *rax = rdi;
+    while(*rdi++ = *rsi++)
+        ;
+    return (rax);
 }

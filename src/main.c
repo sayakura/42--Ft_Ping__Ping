@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 05:36:11 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 05:44:37 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char				*reverse_dns_lookup(char *ip_addr)
 	if (getnameinfo((struct sockaddr *)&temp_addr, len, buf,
 					sizeof(buf), NULL, 0, NI_NAMEREQD))
 		return (ip_addr);
-	strcpy(ret_buf, buf);
+	strcpy_(ret_buf, buf);
 	return (ret_buf);
 }
 

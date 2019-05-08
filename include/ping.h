@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 01:57:17 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 05:44:53 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,6 @@ char				*c_to_s(int code);
 char				*t_to_s(int code);
 void        		perror_(const char *s);
 int					strcmp_(const char *rdi, const char *rsi);
-void				*bzero_(void *rsi, size_t rcx);
+void				bzero_(void *rsi, size_t rcx);
+char				*strcpy_(char *rdi, const char *rsi);
 #endif
