@@ -6,7 +6,7 @@
 /*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:51:58 by qpeng             #+#    #+#             */
-/*   Updated: 2019/05/08 04:53:15 by qpeng            ###   ########.fr       */
+/*   Updated: 2019/05/08 05:36:11 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int					main(int ac, char **av)
 		PRINT_USAGE;
 		exit(EXIT_FAILURE);
 	}
+	if (getuid() != 0)
+		FETAL("Run the program as a root user!");
 	env_init();
 	readopt(ac, av);
 	ping_init();
