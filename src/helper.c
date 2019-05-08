@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 14:52:09 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/22 21:34:29 by kura             ###   ########.fr       */
+/*   Updated: 2019/05/08 01:17:12 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,25 +110,25 @@ void			readopt(int ac, char **av)
 
 	rcx = 0;
 	while (++rcx < ac)
-		if (!strcmp(av[rcx], "-v"))
+		if (!strcmp_(av[rcx], "-v"))
 			gl.verbose = true;
-		else if (!strcmp(av[rcx], "-h"))
+		else if (!strcmp_(av[rcx], "-h"))
 			PRINT_USAGE;
-		else if (!strcmp(av[rcx], "-c"))
+		else if (!strcmp_(av[rcx], "-c"))
 			arg_check(rcx, ac, av, PING_FLAG_C);
-		else if (!strcmp(av[rcx], "-i"))
+		else if (!strcmp_(av[rcx], "-i"))
 			arg_check(rcx, ac, av, PING_FLAG_I);
-		else if (!strcmp(av[rcx], "-t"))
+		else if (!strcmp_(av[rcx], "-t"))
 			arg_check(rcx, ac, av, PING_FLAG_T);
-		else if (!strcmp(av[rcx], "-n"))
+		else if (!strcmp_(av[rcx], "-n"))
 			gl.r_ns_lookup = false;
-		else if (!strcmp(av[rcx], "-a"))
+		else if (!strcmp_(av[rcx], "-a"))
 			gl.bell = true;
-		else if (!strcmp(av[rcx], "-q"))
+		else if (!strcmp_(av[rcx], "-q"))
 			gl.quiet = true;
 		else if (av[rcx][0] == '-')
 			INVALID_OPT(av[rcx] + 1);
-		else if (strcmp(av[rcx - 1], "-c") && strcmp(av[rcx - 1], "-i")
-			&& strcmp(av[rcx - 1], "-t"))
-			gl.host = strcmp(av[rcx], "0") == 0 ? "localhost" : av[rcx];
+		else if (strcmp_(av[rcx - 1], "-c") && strcmp_(av[rcx - 1], "-i")
+			&& strcmp_(av[rcx - 1], "-t"))
+			gl.host = strcmp_(av[rcx], "0") == 0 ? "localhost" : av[rcx];
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ping.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kura <kura@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qpeng <qpeng@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:51:22 by qpeng             #+#    #+#             */
-/*   Updated: 2019/04/22 21:34:44 by kura             ###   ########.fr       */
+/*   Updated: 2019/05/08 01:17:39 by qpeng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 # define FMT "usage: ping [-v][-i][-c][-a][-q][-t][-h] host \n"
 # define PRINT_USAGE ({printf(FMT); exit(EXIT_SUCCESS);})
 # define FETAL(msg) ({fprintf(stderr, "%s\n", msg); exit(EXIT_FAILURE);})
-# define ERR_QUIT(f) ({perror(f); exit(EXIT_FAILURE);})
+# define ERR_QUIT(f) ({perror_(f); exit(EXIT_FAILURE);})
 # define ERR_CHECK(cond, f) ({if(cond)ERR_QUIT(f);})
 # define INVALID_OPT(s) ({fprintf(stderr, FMT2, s); PRINT_USAGE; })
 
@@ -130,4 +130,7 @@ void				get_hlim_val(int *hlim);
 int					get_ip_v(char *src);
 char				*c_to_s(int code);
 char				*t_to_s(int code);
+void        		perror__(const char *s);
+int					strcmp__(const char *rdi, const char *rsi);
+void				*bzero__(void *rsi, size_t rcx);
 #endif
