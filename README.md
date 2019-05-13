@@ -1,5 +1,5 @@
 # 42--Ft_Ping__Ping
-recode linux command ping. 
+Recode linux command ping. 
 
 # Usage
 
